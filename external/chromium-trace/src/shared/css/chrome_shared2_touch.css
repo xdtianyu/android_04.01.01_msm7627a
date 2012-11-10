@@ -1,0 +1,45 @@
+/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+/* NB: do not include this file directly. Include chrome_shared2.css. If touch
+ * optimization is enabled, these rules will be automatically loaded by the
+ * SharedResourceDataSource. */
+
+<include src="chrome_shared2.css">
+
+/* TODO(kevers): Add [type='input'] and [type='password']. */
+input[type='search'] {
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+
+/* Margins are not touchable.  Use padding on the inner label instead to
+  increase the size of the touch target. */
+.checkbox,
+.radio {
+ margin: 0;
+}
+
+.checkbox label,
+.radio label {
+  padding-bottom: 7px;
+  padding-top: 7px;
+}
+
+li > button.link-button {
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+button:not(.custom-appearance):not(.link-button),
+input[type=button]:not(.custom-appearance),
+input[type=submit]:not(.custom-appearance),
+select {
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+
+html[touch-optimized] .tree-item > .tree-row {
+  padding: 4px 3px;
+}

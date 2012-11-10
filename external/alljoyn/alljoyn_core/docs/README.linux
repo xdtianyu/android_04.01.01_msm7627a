@@ -1,0 +1,66 @@
+AllJoyn version 2.5.1 README.TXT
+--------------------------------
+
+What's inside:
+-------------
+
+ * alljoyn_2_5_1_dbg : AllJoyn SDK for Linux (debug), version 2.5.1
+ * alljoyn_2_5_1_rel : AllJoyn SDK for Linux (release), version 2.5.1
+    The above directories are identical, except for compilation options.
+    The file and directory structure inside them is described below. 
+
+ * ReleaseNotes
+    New features, known issues, etc.
+
+
+Summary of file and directory structure:
+----------------------------------------
+ * In each copy of the AllJoyn SDK for Linux (debug or release), five of
+   the top-level directories support C++ application development:    
+    ./bin
+        Executable binaries (bus daemon, C++ samples, test programs)
+        ./bin/bbdaemon
+            Simplified bus daemon implementation:
+                Needs no configuration files.
+                Does not implement DBus policy rules.
+        ./bin/alljoyn-daemon
+            Full-featured bus daemon implementation:
+                Can use configuration file.
+                Implements DBus policy rules.
+                If configuration file is not specified it can be run with default 
+                build-in configuration 
+        ./bin/bbclient
+            Bus client example.
+        ./bin/bbservice
+            Bus service example.
+    
+    ./docs
+        AllJoyn C++ API (HTML documentation)
+
+    ./inc
+        AllJoyn C++ header files
+
+    ./lib/liballjoyn.a
+        Static library used to build AllJoyn capable applications.
+
+    ./samples
+        C++ sample programs for AllJoyn
+
+ * The remaining top-level directory (java) contains a similar structure
+   underneath it, supporting the AllJoyn Java language binding:
+
+    ./java/docs
+        AllJoyn Java API (HTML documentation)
+
+    ./java/jar
+        alljoyn.jar, alljoyn_test.jar, misc. sample jars
+        
+    ./java/lib
+        liballjoyn_java.so
+
+    ./java/samples
+        Java sample programs for AllJoyn (see README)
+        Each sample contains a bin directory containing the prebuilt apks for 
+        that sample.
+
+

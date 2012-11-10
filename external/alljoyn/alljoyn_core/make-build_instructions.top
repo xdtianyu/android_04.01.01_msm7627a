@@ -1,0 +1,116 @@
+
+MARCH 2012: Makefiles have been added to alljoyn_core and common source trees.
+----------
+
+This basic Make build works on Ubuntu x86 only, and only builds the AllJoyn
+native-code daemon and client library.  SCons is not used.
+
+    Note:  The Makefiles found under "samples" are not part of this Make build.
+    Those Makefiles have always been part of the native-code sample programs for
+    Linux.
+
+This basic Make build provides a starting point for users who would like to
+add basic AllJoyn functionality- especially, AllJoyn daemon- to an embedded
+Linux system.  Those users will be expected to adapt these Makefiles to their
+particular platform, on their own.
+
+
+How to build AllJoyn from this source tree on Ubuntu x86, using Make.
+--------------------
+
+This Make build includes only the basic core alljoyn daemon and client library.
+The only sources needed are alljoyn_core and common.  No support for SCons
+builds or alternate language bindings is provided.
+
+
+1. Open a bash window and cd into the top folder (folder contains a Makefile and
+subfolders alljoyn_core and common).
+
+
+2. Run "make"
+
+If the CPU type of the host machine is x86, enter
+    make  OS=linux  CPU=x86  VARIANT=release
+or
+    make  OS=linux  CPU=x86  VARIANT=debug
+
+If the CPU type is amd64 or similar, enter
+    make  OS=linux  CPU=x86-64  VARIANT=release
+or
+    make  OS=linux  CPU=x86-64  VARIANT=debug
+
+where "VARIANT=release" results in stripped binaries optimized for production,
+and "VARIANT=debug" generates much larger binaries with debug support.
+
+Each successful "make" creates a new subtree ./build/linux/$(CPU)/$(VARIANT),
+corresponding to the CPU and VARIANT command line parameters.
+
+The build products installed in one of these subtrees make up an instance of the
+"AllJoyn SDK", and include finished executables (alljoyn-daemon, for example),
+header and library files, and sample client programs.
+
+The default make removes all existing build products for the given OS, CPU, and
+VARIANT, before starting the compile and link.
+
+Additional "make" targets:
+    clean       - remove intermediate build products from the source tree
+    distclean   - like clean, and also remove the
+                ./build/linux/$(CPU)/$(VARIANT) subtree
+    partial     - start the compile & link without removing anything first
+                  (not recommended)
+For example,
+    make  OS=linux  CPU=x86  VARIANT=release  distclean
+
+
+#   UPDATE, 2012-04-12:
+#   ------------------
+#   The Make build now generates both liballjoyn.a and liballjoyn.so,
+#       both in build/$(OS)/$(CPU)/$(VARIANT)/dist/lib
+#
+#   Alljoyn daemon and all samples now link against with liballjoyn.so
+#       instead of liballjoyn.a
+#
+#   Usage change:
+#
+#   The AllJoyn daemon and/or other AllJoyn executables may now refer to
+#       liballjoyn.so at run time. You may need to copy liballjoyn.so to
+#       the system where AllJoyn executables are run, and/or add the path
+#       to the directory containing liballjoyn.so to environment variable
+#       LD_LIBRARY_PATH.
+#
+#       For example:
+#           mkdir /opt/alljoyn/lib
+#           cp build/linux/x86/release/dist/lib/liballjoyn.so /opt/alljoyn/lib
+#           export LD_LIBRARY_PATH=/opt/alljoyn/lib:$LD_LIBRARY_PATH
+#
+#       Alternatively, you may simply add liballjoyn.so to the system libs.
+#       For example, copy liballjoyn.so to "/usr/lib64" on Ubuntu 64-bit
+#       systems, and to "/usr/lib32" on Ubuntu 32-bit system.
+
+
+3. Run a simple test of these build products
+
+To build the chat sample program, cd to
+    ./build/linux/x86-64/release/dist/samples/chat
+and enter
+    make
+
+To run the alljoyn-daemon in the foreground,
+    cd ./build/linux/x86-64/release/dist/bin # for example
+and enter
+    ./alljoyn-daemon --internal
+
+To run chat, start a daemon as shown above.  Then, in a second command window,
+cd to
+    ./build/linux/x86-64/release/dist/samples/chat
+and enter
+    ./chat -s testing
+
+In a third command window, cd to
+    ./build/linux/x86-64/release/dist/samples/chat
+and enter
+    ./chat -j testing
+
+From then on, messages entered into either copy of chat should be echoed to the
+other copy through AllJoyn.
+

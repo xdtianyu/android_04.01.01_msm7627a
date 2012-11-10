@@ -1,0 +1,49 @@
+# Copyright 2010 - 2012, Qualcomm Innovation Center, Inc.
+# 
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+# 
+#        http://www.apache.org/licenses/LICENSE-2.0
+# 
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# 
+
+Import('env')
+
+# Test Programs
+progs = [
+    env.Program('bastress',      ['bastress.cc']),
+    env.Program('bignum',        ['bignum.cc']),
+    env.Program('socktest',      ['socktest.cc']),
+    env.Program('autochat',      ['autochat.cc']),
+    env.Program('remarshal',     ['remarshal.cc']),
+    env.Program('unpack',        ['unpack.cc']),
+    env.Program('rsa',           ['rsa.cc']),
+    env.Program('srp',           ['srp.cc']),
+    env.Program('aes_ccm',       ['aes_ccm.cc']),
+    env.Program('keystore',      ['keystore.cc']),
+    env.Program('bbservice',     ['bbservice.cc']),
+    env.Program('bbsig',         ['bbsig.cc']),
+    env.Program('bbclient',      ['bbclient.cc']),
+    env.Program('bbjoin',        ['bbjoin.cc']),
+    env.Program('bbjitter',      ['bbjitter.cc']),
+    env.Program('bttimingclient', ['bttimingclient.cc']),
+    env.Program('marshal',       ['marshal.cc']),
+    env.Program('names',         ['names.cc']),
+    env.Program('compression',   ['compression.cc']),
+    env.Program('rawclient',     ['rawclient.cc']),
+    env.Program('rawservice',    ['rawservice.cc']),
+    env.Program('sessions',      ['sessions.cc'])
+    ]
+
+if env['OS'] == 'linux' or env['OS'] == 'android':
+   progs.extend(env.Program('mc-rcv',     ['mc-rcv.cc']))
+   progs.extend(env.Program('mc-snd',     ['mc-snd.cc']))
+   progs.extend(env.Program('bluetoothd-crasher',     ['bluetoothd-crasher.cc']))
+
+Return('progs')

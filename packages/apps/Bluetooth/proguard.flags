@@ -1,0 +1,3 @@
+-keepclasseswithmembers class com.android.bluetooth.map.BluetoothMns* {
+  public <init>(android.content.Context,java.lang.Integer);
+}

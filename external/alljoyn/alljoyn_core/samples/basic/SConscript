@@ -1,0 +1,44 @@
+# Copyright 2010 - 2012, Qualcomm Innovation Center, Inc.
+# 
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+# 
+#        http://www.apache.org/licenses/LICENSE-2.0
+# 
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# 
+
+Import('env')
+clientDistDir = '$DISTDIR/samples/basic'
+
+# Sample Programs
+progs = [
+    env.Program('basic_service',  ['basic_service.cc']),
+    env.Program('basic_client',   ['basic_client.cc']),
+    env.Program('signal_service', ['signal_service.cc']),
+    env.Program('nameChange_client', ['nameChange_client.cc']),
+    env.Program('signalConsumer_client', ['signalConsumer_client.cc']),
+    ]
+
+if 'linux' == env['OS'] or 'darwin' == env['OS']:
+    env.Install('$DISTDIR/bin/samples', progs )
+    env.Install(clientDistDir, env.Glob('*.cc'))
+    env.Install(clientDistDir, env.Glob('Makefile'))
+    env.Install(clientDistDir, 'README.txt')
+elif env['OS_GROUP'] == 'windows':
+    env.Install('$DISTDIR/bin/samples', progs )
+    env.Install(clientDistDir, env.Glob('*.cc'))
+    env.InstallAs(clientDistDir + '/README.txt', 'README.windows.txt')
+    #install Visual Studio solution files
+    env.Install(clientDistDir+'/VC2008Win7', 'VC2008Win7/MSVC2008-Win7.sln')
+    env.Install(clientDistDir+'/VC2008Win7/basic_client', 'VC2008Win7/basic_client/basic_client.vcproj')
+    env.Install(clientDistDir+'/VC2008Win7/basic_service', 'VC2008Win7/basic_service/basic_service.vcproj')
+    env.Install(clientDistDir+'/VC2008Win7/nameChange_client', 'VC2008Win7/nameChange_client/nameChange_client.vcproj')
+    env.Install(clientDistDir+'/VC2008Win7/signal_service', 'VC2008Win7/signal_service/signal_service.vcproj')
+    env.Install(clientDistDir+'/VC2008Win7/signalConsumer_client', 'VC2008Win7/signalConsumer_client/signalConsumer_client.vcproj')
+    

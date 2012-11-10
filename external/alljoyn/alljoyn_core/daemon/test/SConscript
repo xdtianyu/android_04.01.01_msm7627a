@@ -1,0 +1,56 @@
+# Copyright 2010 - 2012, Qualcomm Innovation Center, Inc.
+# 
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+# 
+#        http://www.apache.org/licenses/LICENSE-2.0
+# 
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# 
+
+Import('env', 'daemon_objs')
+from os.path import basename
+
+env.Append(CPPPATH=['..'])
+
+# Test Programs
+progs = [
+    env.Program('advtunnel', ['advtunnel.cc'] + daemon_objs),
+    env.Program('bbdaemon', ['bbdaemon.cc'] + daemon_objs),
+    env.Program('ns', ['ns.cc'] + daemon_objs)
+   ]
+
+if env['OS_GROUP'] == 'posix' and env['OS'] != 'darwin':
+   testenv = env.Clone()
+   testenv.Append(LINKFLAGS=['-Wl,--allow-multiple-definition'])
+   progs.append(testenv.Program('BTAccessorTester', ['BTAccessorTester.cc'] + [ o for o in daemon_objs
+                                                                                if ((basename(str(o)) != 'BTTransport.o') and
+                                                                                    (basename(str(o)) != 'BTController.o'))]))
+
+#if env['OS_GROUP'] == 'windows':
+#   progs.append(env.Program('BTAccessorTester.exe', ['BTAccessorTester.cc'] + [ o for o in daemon_objs
+#                                                                            if ((basename(str(o)) != 'BTTransport.obj') and
+#                                                                                (basename(str(o)) != 'BTController.obj'))]))
+
+#if env['OS'] == 'win7':
+#   progs.append(env.Program('WinBtDiscovery.exe', ['WinBtDiscovery.cc']))
+
+if env['OS_GROUP'] == 'posix':
+   progs.append(env.Program('packettest', ['PacketTest.cc'] + daemon_objs))
+
+#
+# On Android, build a static library that can be linked into a JNI dynamic 
+# library to implement the daemon as a Service
+#
+if env['OS'] == 'android':
+   libenv = env.Clone(CCFLAGS = '-DDAEMON_LIB')
+   libenv.Object(target = 'bbdaemon-lib', source = 'bbdaemon.cc')
+   libbbdaemon = env.StaticLibrary(['bbdaemon-lib'] + daemon_objs)
+   dlibs = env.Install('$DISTDIR/lib', libbbdaemon)
+
+Return('progs')

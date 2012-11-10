@@ -1,0 +1,69 @@
+# Copyright 2010 - 2012, Qualcomm Innovation Center, Inc.
+# 
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+# 
+#        http://www.apache.org/licenses/LICENSE-2.0
+# 
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# 
+
+Import('env')
+from os.path import basename
+
+if env['OS'] == "darwin":
+    # Darwin has its own version of the daemon transport
+    srcs = [ f for f in env.Glob('*.cc') + env.Glob('*.c') + env.Glob(env['OS'] + '/DaemonTransport.cc')]
+else:
+    srcs = [ f for f in env.Glob('*.cc') + env.Glob('*.c') + env.Glob(env['OS_GROUP'] + '/DaemonTransport.cc')]
+
+# bluetooth source files
+bt_srcs = [ 'BTController.cc', 'BTTransport.cc', 'BTNodeDB.cc' ]
+
+# basic daemon objects (excluding bluetooth)
+base_srcs = [ f for f in srcs if basename(str(f)) not in bt_srcs ]
+base_objs = env.Object(base_srcs)
+
+# Add in ICE support
+if env['OS_GROUP'] == 'posix':
+    ice_srcs = env.SConscript('ice/SConscript')
+    base_objs.extend(env.Object(ice_srcs))
+    json_srcs = env.SConscript('JSON/SConscript')
+    base_objs.extend(env.Object(json_srcs))   
+
+# Add in bluetooth support
+if env['OS'] == 'android_donut' or env['OS'] =="darwin" or env['OS_GROUP'] == "windows":
+    # bluetooth not supported on this platform
+    daemon_objs = base_objs;
+    pass
+#elif env['OS_GROUP'] == "windows":
+#    bt_srcs.extend(env.SConscript('bt_windows/SConscript'))
+#    daemon_objs = base_objs + env.Object(bt_srcs)
+#    env.AppendUnique(LIBS = ['Bthprops'])
+else:
+    # Use BlueZ
+    bt_srcs.extend(env.SConscript('bt_bluez/SConscript'))
+    daemon_objs = base_objs + env.Object(bt_srcs)
+
+# AllJoyn Daemon
+progs, os_objs = env.SConscript('${OS_GROUP}/SConscript', exports=['daemon_objs'])
+base_objs.extend(os_objs)
+daemon_objs.extend(os_objs)
+
+# Daemon library
+lib  = env.StaticLibrary('ajdaemon', base_objs);
+    
+# AllJoyn Daemon test programs
+tests = env.SConscript('test/SConscript', exports=['daemon_objs'])
+
+# Bundled daemon object file
+bdobj = env.SConscript('bundled/SConscript')
+
+# Return daemon and related tests
+ret = progs + tests, lib, bdobj
+Return('ret')

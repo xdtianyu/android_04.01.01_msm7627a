@@ -1,0 +1,15 @@
+The src directory contains Chromium source from the following locations:
+
+    http://src.chromium.org/chrome/trunk/src/chrome/browser/resources/shared/
+    http://src.chromium.org/chrome/trunk/src/chrome/browser/resources/tracing/
+
+The file src/UPSTREAM_REVISION contains the upstream revision number that was
+last pulled.  There may be local patches applied on top of the upstream source,
+but we should keep those to a minimum.
+
+The update.py script should be used to package the CSS and Javascript files in
+the src directory into the style.css and script.js files.  These files are
+being checked in, and get embedded in each trace HTML file the systrace.py
+generates.  Each time a file in the www directory gets updated, this script
+will need to be rerun, and the generated files must be committed along with the
+changes to the www directory.

@@ -1,0 +1,12 @@
+currentVersion=889881,901014
+version=889881,901014
+isNative=false
+name=apache-xml
+keywords=apache xml commons xalan xslt xpath validation
+onDevice=true
+homepage=http://xml.apache.org/xalan-j/
+xalanSvn=http://svn.apache.org/repos/asf/xalan/java/trunk
+xalanSvnRev=889881
+xmlCommonsSvn=http://svn.apache.org/repos/asf/xml/commons/trunk
+xmlCommonsSvnRef=901014
+

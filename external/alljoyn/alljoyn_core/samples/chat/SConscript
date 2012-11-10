@@ -1,0 +1,40 @@
+# Copyright 2010 - 2011, Qualcomm Innovation Center, Inc.
+# 
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+# 
+#        http://www.apache.org/licenses/LICENSE-2.0
+# 
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# 
+
+Import('env')
+
+# Install sample source
+clientDistDir = '$DISTDIR/samples/chat'
+if env['OS'] == 'android':
+    env.Install(clientDistDir, env.Glob('android/AndroidManifest.xml'))
+    env.Install(clientDistDir, env.Glob('android/.classpath'))
+    env.Install(clientDistDir, env.Glob('android/.project'))
+    env.Install(clientDistDir, env.Glob('android/default.properties'))
+    env.Install(clientDistDir, Dir('android/jni').srcnode())
+    env.Install(clientDistDir, Dir('android/src').srcnode())
+    env.Install(clientDistDir, Dir('android/res').srcnode())
+elif env['OS'] == 'linux' or 'darwin' == env['OS']:
+    env.Program('chat', ['linux/chat.cc'])
+    env.Install('$DISTDIR/bin/samples', ['chat'])
+    env.Install(clientDistDir, env.Glob('linux/*.cc'))
+    env.Install(clientDistDir, env.Glob('linux/Make*'))
+elif env['OS_GROUP'] == 'windows':
+    env.Program('chat', ['linux/chat.cc'])
+    env.Install('$DISTDIR/bin/samples', ['chat.exe'])
+    env.Install(clientDistDir, env.Glob('linux/*.cc'))
+    #install Visual Studio solution files
+    env.Install(clientDistDir+'/VC2008Win7', 'linux/VC2008Win7/VC2008Win7.sln')
+    env.Install(clientDistDir+'/VC2008Win7/chatsample', 'linux/VC2008Win7/chatsample/chatsample.vcproj')
+

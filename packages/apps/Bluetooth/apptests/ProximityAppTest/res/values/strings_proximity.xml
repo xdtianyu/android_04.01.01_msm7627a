@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="proximity_hello">Hello World, LEProximityClient!</string>
+    <string name="proximity_app_name">LEProximity</string>
+    <string name="Get_BT_devices">Get BT devices</string>
+    <string name="Link_Loss_Service">Link Loss Service</string>
+    <string name="Immediate_Alert_Service">Immediate Alert Service</string>
+    <string name="Tx_power_Service">Tx power Service</string>
+    <string name="characteristics_prompt">Select a Characteristic</string>
+    <string name="empty_string"> </string>
+    <string name="Read_Value">Read Value</string>
+    <string name="Write_Value">Write Value</string>
+    <string name="enter_rssi">Enter Rssi Threshold</string>
+    <string name="resgister_rssi">Register RSSI</string>
+     <string name="unregister_rssi">Unregister</string>
+    <string name="enter_path_loss">Enter Path Loss Threshold</string>
+    <string name="enter">Enter</string>
+    <string-array name="characteristics_array">
+        <item>Link Loss Alert Level</item>
+    </string-array>
+    <string-array name="imm_alert_characteristics_array">
+        <item>Imm Alert Level</item>
+    </string-array>
+    <string-array name="tx_power_characteristics_array">
+        <item>TX Power Level</item>
+    </string-array>
+    <string name="closeService">Close Service</string>
+        <!-- Do not translate. android:sharedUserId string of this application. -->
+</resources>

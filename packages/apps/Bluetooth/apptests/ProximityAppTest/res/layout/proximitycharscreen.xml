@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:padding="10dip"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" android:orientation="vertical">
+    <TextView android:text="@string/characteristics_prompt" android:layout_marginTop="10dip" android:layout_height="wrap_content" android:id="@+id/TextView01" android:layout_width="fill_parent"></TextView>
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/characteristics_prompt"
+    />
+    <EditText android:layout_height="wrap_content" android:layout_width="match_parent" android:text="@string/empty_string" android:id="@+id/readText"></EditText>
+    <Button android:text="@string/Read_Value" android:id="@+id/readButton" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+    <EditText android:layout_height="wrap_content" android:text="@string/empty_string" android:id="@+id/writeValueText" android:layout_width="match_parent"></EditText>
+    <Button android:text="@string/Write_Value" android:id="@+id/writeButton" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+    <!--  <TextView android:text="@string/enter_path_loss" android:layout_marginTop="10dip" android:layout_height="wrap_content" android:id="@+id/TextView03" android:layout_width="fill_parent"></TextView>
+    <EditText android:layout_height="wrap_content" android:layout_width="match_parent" android:text="@string/empty_string" android:id="@+id/pathLossText"></EditText>
+    <Button android:text="@string/enter" android:id="@+id/pathLossButton" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button> -->
+    <TextView android:text="@string/enter_rssi" android:layout_marginTop="10dip" android:layout_height="wrap_content" android:id="@+id/TextView02" android:layout_width="fill_parent"></TextView>
+    <EditText android:layout_height="wrap_content" android:layout_width="match_parent" android:text="@string/empty_string" android:id="@+id/rssiText"></EditText>
+    <Button android:text="@string/resgister_rssi" android:id="@+id/rssiButton" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+    <Button android:text="@string/unregister_rssi" android:id="@+id/pathLossButton" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+</LinearLayout>

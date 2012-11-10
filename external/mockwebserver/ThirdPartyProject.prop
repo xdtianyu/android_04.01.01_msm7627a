@@ -1,0 +1,9 @@
+# Copyright 2011 Google Inc. All Rights Reserved.
+# Tue Jun 7 07:46:18 PDT 2011
+currentVersion=r9
+version=r9
+isNative=false
+name=mockwebserver
+keywords=mockwebserver
+onDevice=true
+homepage=http\://code.google.com/p/mockwebserver/source/checkout

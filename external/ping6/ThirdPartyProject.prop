@@ -1,0 +1,9 @@
+# Copyright 2011 Google Inc. All Rights Reserved.
+# Wed, 19 Jan 2011 20:17:59 +0100
+currentVersion=1.73
+version=Unknown
+isNative=true
+name=ping6
+keywords=ping
+onDevice=true
+homepage=http\://cvsweb.netbsd.org/bsdweb.cgi/src/sbin/ping6/ping6.c

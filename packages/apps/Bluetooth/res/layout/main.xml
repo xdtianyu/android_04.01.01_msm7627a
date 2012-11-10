@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:background="@drawable/printer">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:textColor="#777777"
+        android:text="@string/bpp_main" android:textSize="30dp"
+        android:gravity="center"/>
+
+    <TableLayout android:layout_width="fill_parent"
+        android:layout_height="fill_parent" android:gravity="bottom|center">
+        <TableRow>
+            <Button android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:id="@+id/bpp_setting_button"
+                android:text="@string/bpp_setting_text"
+                android:textSize="35dp">
+            </Button>
+            <Button android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:id="@+id/bpp_printing_button"
+                android:text="@string/bpp_printing_button_text"
+                android:textSize="35dp">
+            </Button>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+# Copyright (c) 2012, Code Aurora Forum. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#    * Redistributions in binary form must reproduce the above
+#      copyright notice, this list of conditions and the following
+#      disclaimer in the documentation and/or other materials provided
+#      with the distribution.
+#    * Neither the name of Code Aurora Forum, Inc. nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# -->
+<Server xmlns:xsi="http://www.w3.org/2001/XMLSchema">
+    <Service type="00002800-0000-1000-8000-00805F9B34FB"
+             uuid="00001101-0000-1000-8000-00805F9B34FB" name="Primary Service1">
+        <SecuritySettings>
+              <Security>
+                  <ReadOnly>1</ReadOnly>
+                  <ReadWithAuthentication>0</ReadWithAuthentication>
+                  <ReadWithAuthorization>0</ReadWithAuthorization>
+                  <WriteWithAuthentication>0</WriteWithAuthentication>
+                  <WriteWithAuthorization>0</WriteWithAuthorization>
+              </Security>
+        </SecuritySettings>
+        <IncludedServices>
+              <IncludedService type="00002802-0000-1000-8000-00805F9B34FB"
+                    uuid="00001200-0000-1000-8000-00805F9B34FB">
+                   <SecuritySettings>
+                       <Security>
+                           <ReadOnly>1</ReadOnly>
+                           <ReadWithAuthentication>0</ReadWithAuthentication>
+                           <ReadWithAuthorization>0</ReadWithAuthorization>
+                           <WriteWithAuthentication>0</WriteWithAuthentication>
+                           <WriteWithAuthorization>0</WriteWithAuthorization>
+                       </Security>
+                   </SecuritySettings>
+              </IncludedService>
+        </IncludedServices>
+        <Characteristics>
+            <Characteristic name="Characteristic1" type="00002803-0000-1000-8000-00805F9B34FB"
+                uuid="00001102-0000-1000-8000-00805F9B34FB">
+                  <Properties>
+                      <Read>1</Read>
+                      <Write>1</Write>
+                      <WriteWithoutResponse>0</WriteWithoutResponse>
+                      <SignedWrite>0</SignedWrite>
+                      <ReliableWrite>0</ReliableWrite>
+                      <Notify>0</Notify>
+                      <Indicate>1</Indicate>
+                      <WritableAuxiliaries>0</WritableAuxiliaries>
+                      <Broadcast>0</Broadcast>
+                  </Properties>
+                  <CharacteristicsValue type="00001102-0000-1000-8000-00805F9B34FB">
+                      <Value>32</Value>
+                      <Properties>
+                            <Read>1</Read>
+                            <Write>1</Write>
+                            <WriteWithoutResponse>0</WriteWithoutResponse>
+                            <SignedWrite>0</SignedWrite>
+                            <ReliableWrite>0</ReliableWrite>
+                            <Notify>0</Notify>
+                            <Indicate>1</Indicate>
+                            <WritableAuxiliaries>0</WritableAuxiliaries>
+                            <Broadcast>0</Broadcast>
+                      </Properties>
+                      <SecuritySettings>
+                          <Security>
+                              <ReadOnly>1</ReadOnly>
+                              <ReadWithAuthentication>0</ReadWithAuthentication>
+                              <ReadWithAuthorization>0</ReadWithAuthorization>
+                              <WriteWithAuthentication>0</WriteWithAuthentication>
+                              <WriteWithAuthorization>0</WriteWithAuthorization>
+                          </Security>
+                      </SecuritySettings>
+                  </CharacteristicsValue>
+                  <Descriptors>
+                      <Descriptor name="Client Characteristic Configuration"
+                            type="00002902-0000-1000-8000-00805F9B34FB">
+                      <Value>2</Value>
+                      <Properties>
+                          <Read>1</Read>
+                          <Write>1</Write>
+                      </Properties>
+                      <SecuritySettings>
+                          <Security>
+                              <ReadOnly>1</ReadOnly>
+                              <ReadWithAuthentication>0</ReadWithAuthentication>
+                              <ReadWithAuthorization>0</ReadWithAuthorization>
+                              <WriteWithAuthentication>0</WriteWithAuthentication>
+                              <WriteWithAuthorization>0</WriteWithAuthorization>
+                          </Security>
+                      </SecuritySettings>
+                      </Descriptor>
+                  </Descriptors>
+            </Characteristic>
+        <Characteristic name="Characteristic2" type="00002803-0000-1000-8000-00805F9B34FB"
+                uuid="00001103-0000-1000-8000-00805F9B34FB">
+            <Properties>
+                <Read>1</Read>
+                <Write>1</Write>
+                <WriteWithoutResponse>0</WriteWithoutResponse>
+                <SignedWrite>0</SignedWrite>
+                <ReliableWrite>0</ReliableWrite>
+                <Notify>0</Notify>
+                <Indicate>0</Indicate>
+                <WritableAuxiliaries>0</WritableAuxiliaries>
+                <Broadcast>0</Broadcast>
+            </Properties>
+            <CharacteristicsValue type="00001103-0000-1000-8000-00805F9B34FB">
+                <Value>2</Value>
+                <Properties>
+                    <Read>1</Read>
+                    <Write>1</Write>
+                    <WriteWithoutResponse>0</WriteWithoutResponse>
+                    <SignedWrite>0</SignedWrite>
+                    <ReliableWrite>0</ReliableWrite>
+                    <Notify>0</Notify>
+                    <Indicate>0</Indicate>
+                    <WritableAuxiliaries>0</WritableAuxiliaries>
+                    <Broadcast>0</Broadcast>
+                </Properties>
+                <SecuritySettings>
+                    <Security>
+                        <ReadOnly>1</ReadOnly>
+                        <ReadWithAuthentication>0</ReadWithAuthentication>
+                        <ReadWithAuthorization>0</ReadWithAuthorization>
+                        <WriteWithAuthentication>0</WriteWithAuthentication>
+                        <WriteWithAuthorization>0</WriteWithAuthorization>
+                    </Security>
+                </SecuritySettings>
+            </CharacteristicsValue>
+        </Characteristic>
+    </Characteristics>
+  </Service>
+  <Service type="00002801-0000-1000-8000-00805F9B34FB"
+            uuid="00001200-0000-1000-8000-00805F9B34FB" name="SecondaryService1">
+        <Characteristics>
+            <Characteristic name="Characteristic3" type="00002803-0000-1000-8000-00805F9B34FB"
+                uuid="00001201-0000-1000-8000-00805F9B34FB">
+                <Properties>
+                    <Read>1</Read>
+                    <Write>1</Write>
+                    <WriteWithoutResponse>0</WriteWithoutResponse>
+                    <SignedWrite>0</SignedWrite>
+                    <ReliableWrite>0</ReliableWrite>
+                    <Notify>0</Notify>
+                    <Indicate>0</Indicate>
+                    <WritableAuxiliaries>0</WritableAuxiliaries>
+                    <Broadcast>0</Broadcast>
+                </Properties>
+                <CharacteristicsValue type="00001201-0000-1000-8000-00805F9B34FB">
+                    <Value>2</Value>
+                    <Properties>
+                        <Read>1</Read>
+                        <Write>1</Write>
+                        <WriteWithoutResponse>0</WriteWithoutResponse>
+                        <SignedWrite>0</SignedWrite>
+                        <ReliableWrite>0</ReliableWrite>
+                        <Notify>0</Notify>
+                        <Indicate>0</Indicate>
+                        <WritableAuxiliaries>0</WritableAuxiliaries>
+                        <Broadcast>0</Broadcast>
+                    </Properties>
+                    <SecuritySettings>
+                        <Security>
+                             <ReadOnly>1</ReadOnly>
+                             <ReadWithAuthentication>0</ReadWithAuthentication>
+                             <ReadWithAuthorization>0</ReadWithAuthorization>
+                             <WriteWithAuthentication>0</WriteWithAuthentication>
+                             <WriteWithAuthorization>0</WriteWithAuthorization>
+                        </Security>
+                    </SecuritySettings>
+                </CharacteristicsValue>
+            </Characteristic>
+            <Characteristic name="Characteristic4" type="00002803-0000-1000-8000-00805F9B34FB"
+                uuid="00001202-0000-1000-8000-00805F9B34FB">
+                <Properties>
+                    <Read>1</Read>
+                    <Write>1</Write>
+                    <WriteWithoutResponse>0</WriteWithoutResponse>
+                    <SignedWrite>0</SignedWrite>
+                    <ReliableWrite>0</ReliableWrite>
+                    <Notify>0</Notify>
+                    <Indicate>0</Indicate>
+                    <WritableAuxiliaries>0</WritableAuxiliaries>
+                    <Broadcast>0</Broadcast>
+                </Properties>
+                <CharacteristicsValue type="00001202-0000-1000-8000-00805F9B34FB">
+                     <Value>2</Value>
+                     <Properties>
+                         <Read>1</Read>
+                         <Write>1</Write>
+                         <WriteWithoutResponse>0</WriteWithoutResponse>
+                         <SignedWrite>0</SignedWrite>
+                         <ReliableWrite>0</ReliableWrite>
+                         <Notify>0</Notify>
+                         <Indicate>0</Indicate>
+                         <WritableAuxiliaries>0</WritableAuxiliaries>
+                         <Broadcast>0</Broadcast>
+                     </Properties>
+                     <SecuritySettings>
+                       <Security>
+                           <ReadOnly>1</ReadOnly>
+                           <ReadWithAuthentication>0</ReadWithAuthentication>
+                           <ReadWithAuthorization>0</ReadWithAuthorization>
+                           <WriteWithAuthentication>0</WriteWithAuthentication>
+                           <WriteWithAuthorization>0</WriteWithAuthorization>
+                       </Security>
+                     </SecuritySettings>
+                  </CharacteristicsValue>
+              </Characteristic>
+          </Characteristics>
+     </Service>
+</Server>

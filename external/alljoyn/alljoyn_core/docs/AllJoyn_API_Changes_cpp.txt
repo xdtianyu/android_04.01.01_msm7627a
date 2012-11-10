@@ -1,0 +1,688 @@
+This document contains a list of changes to the C++ AllJoyn API.
+Each Status, class, Method, Function, or MACRO will be marked as follows:
+'NEW': API code that was added to the release.
+'CHANGED': API code that has been changed since the last release.  
+'REMOVED': API code that has been deleted from the release and can no longer be 
+           used.
+'DEPRECATED': API code that has been marked as deprecated.    
+
+Each addition should contain a short explanation of what added or changed.
+For more information please refer to the API documentation.
+-------------------------------------------------------------------------------
+AllJoyn API Changes between v2.3.0 and v2.5.0 (C++ API)
+NEW STATUS
+ER_THREADPOOL_EXHAUSTED  value = 0x101f 
+    A thread pool has reached its specified concurrency
+
+NEW STATUS
+ER_THREADPOOL_STOPPING  value = 0x1020 
+    Cannot execute a closure on a stopping thread pool
+
+NEW STATUS
+ER_BUS_AUTHENTICATION_PENDING value = 0x90a7 
+    Authentication of remote peer is pending
+
+NEW STATUS
+ER_BUS_NOT_AUTHORIZED value = 0x90a8 
+    Operation was not authorized
+
+NEW STATUS
+ER_PACKET_BUS_NO_SUCH_CHANNEL value = 0x90a9 
+    Received packet for unknown channel
+
+NEW STATUS
+ER_PACKET_BAD_FORMAT value = 0x90aa 
+    Received packet with incorrect header information
+
+NEW STATUS
+ER_PACKET_CONNECT_TIMEOUT value = 0x90ab 
+    Timed out waiting for connect response
+
+NEW STATUS
+ER_PACKET_CHANNEL_FAIL value = 0x90ac 
+    Failed to create new comm channel
+
+NEW STATUS
+ER_PACKET_TOO_LARGE value = 0x90ad 
+    Message too large for use with packet based transport
+
+NEW STATUS
+ER_PACKET_BAD_PARAMETER value = 0x90ae 
+    Invalid PacketEngine control packet received
+
+NEW STATUS
+ER_PACKET_BAD_CRC value = 0x90af 
+    Packet has invalid CRC
+
+NEW STATUS
+ER_STUN_ATTR_SIZE_MISMATCH value = 0x90b0 
+    STUN attribute size does not match size parsed
+
+NEW STATUS
+ER_STUN_AUTH_CHALLENGE value = 0x90b1 
+    STUN server has denied request, issued Challenge
+
+NEW STATUS
+ER_STUN_SOCKET_NOT_OPEN value = 0x90b2 
+    Underlying socket not open for operation
+
+NEW STATUS
+ER_STUN_SOCKET_OPEN value = 0x90b3 
+    Underlying socket alread open
+
+NEW STATUS
+ER_STUN_FAILED_TO_SEND_MSG value = 0x90b4 
+    Failed to send STUN message
+
+NEW STATUS
+ER_STUN_FRAMING_ERROR value = 0x90b5 
+    Application specified invalid TCP framing
+
+NEW STATUS
+ER_STUN_INVALID_ERROR_CODE value = 0x90b6 
+    Invalid STUN error code
+
+NEW STATUS
+ER_STUN_INVALID_FINGERPRINT value = 0x90b7 
+    Fingerprint CRC does not match
+
+NEW STATUS
+ER_STUN_INVALID_ADDR_FAMILY value = 0x90b8 
+    Invalid address family value in STUN 'address' attribute
+
+NEW STATUS
+ER_STUN_INVALID_MESSAGE_INTEGRITY value = 0x90b9 
+    SHA1-HMAC message integrity value does not match. When passed to upper layer, 
+    indicates unauthorized response, message must be ignored
+
+NEW STATUS
+ER_STUN_INVALID_MSG_TYPE value = 0x90ba 
+    Invalid STUN message type
+
+NEW STATUS
+ER_STUN_INVALID_ATTR_TYPE value = 0x90bb 
+    Invalid STUN message attribute type
+
+NEW STATUS
+ER_STUN_RESPONSE_WITH_USERNAME value = 0x90bc 
+    STUN response message included a USERNAME attribute
+
+NEW STATUS
+ER_STUN_ERR400_BAD_REQUEST value = 0x90bd 
+    Received bad STUN request, upper layer must send error code 400
+
+NEW STATUS
+ER_STUN_BAD_INDICATION value = 0x90be 
+    Received bad STUN indication, upper layer must ignore message
+
+NEW STATUS
+ER_STUN_ERR401_UNAUTHORIZED_REQUEST value = 0x90bf 
+    Received STUN request with invalid USERNAME or invalid MESSAGE-INTEGRITY, 
+    upper layer must send error code 401
+
+NEW STATUS
+ER_STUN_TOO_MANY_ATTRIBUTES value = 0x90c0 
+    Too many attributes in STUN message or unknown attributes list
+
+NEW STATUS
+ER_STUN_DUPLICATE_ATTRIBUTE value = 0x90c1 
+    STUN message attribute must only be added once
+
+NEW STATUS
+ER_STUN_UNAUTHORIZED_INDICATION value = 0x90c2 
+    Receive STUN indication with invalid USERNAME or invalid MESSAGE-INTEGRITY, 
+    upper layer must ignore message
+
+NEW STATUS
+ER_ICE_ALLOCATING_MEMORY value = 0x90c3 
+    Unable to allocate heap from ICE
+
+NEW STATUS
+ER_ICE_CHECKS_INCOMPLETE value = 0x90c4 
+    ICE Checks have not completed
+
+NEW STATUS
+ER_ICE_ALLOCATE_REJECTED_NO_RESOURCES value = 0x90c5 
+    TURN server rejected ALLOCATE request
+
+NEW STATUS
+ER_ICE_ALLOCATION_QUOTA_REACHED value = 0x90c6 
+    TURN server rejected with 486
+
+NEW STATUS
+ER_ICE_ALLOCATION_MISMATCH value = 0x90c7 
+    TURN server has expired the allocation
+
+NEW STATUS
+ER_ICE_STUN_ERROR value = 0x90c8 
+    Generic ICE error
+
+NEW STATUS
+ER_ICE_INVALID_STATE value = 0x90c9 
+    ICE Agent is not in proper state to perform request
+
+NEW STATUS
+ER_ICE_UNKNOWN_COMPONENT_ID value = 0x90ca 
+    ICE Component type is not recognized
+
+NEW STATUS
+ER_RENDEZVOUS_SERVER_DEACTIVATED_USER value = 0x90cb 
+    Rendezvous Server has deactivated the current user. Register with the 
+    Rendezvous Server to continue.
+
+NEW STATUS
+ER_RENDEZVOUS_SERVER_UNKNOWN_USER value = 0x90cc 
+    Rendezvous Server does not recognize the current user. Register with the 
+    Rendezvous Server to continue.
+
+NEW STATUS
+ER_UNABLE_TO_CONNECT_TO_RENDEZVOUS_SERVER value = 0x90cd 
+    Unable to connect to the Rendezvous Server
+
+NEW STATUS
+ER_NOT_CONNECTED_TO_RENDEZVOUS_SERVER value = 0x90ce 
+    Not connected to the Rendezvous Server
+
+NEW STATUS
+ER_UNABLE_TO_SEND_MESSAGE_TO_RENDEZVOUS_SERVER value = 0x90cf 
+    Unable to send message to the Rendezvous Server
+
+NEW STATUS
+ER_INVALID_RENDEZVOUS_SERVER_INTERFACE_MESSAGE value = 0x90d0 
+    Invalid Rendezvous Server interface message
+
+NEW STATUS
+ER_INVALID_PERSISTENT_CONNECTION_MESSAGE_RESPONSE value = 0x90d1 
+    Invalid message response received over the Persistent connection with the 
+    Rendezvous Server
+
+NEW STATUS
+ER_INVALID_ON_DEMAND_CONNECTION_MESSAGE_RESPONSE value = 0x90d2 
+    Invalid message response received over the On Demand connection with the 
+    Rendezvous Server
+
+NEW STATUS
+ER_INVALID_HTTP_METHOD_USED_FOR_RENDEZVOUS_SERVER_INTERFACE_MESSAGE value = 0x90d3 
+    Invalid HTTP method type used for Rendezvous Server interface message
+
+NEW STATUS
+ER_RENDEZVOUS_SERVER_ERR500_INTERNAL_ERROR value = 0x90d4 
+    Received a HTTP 500 status code from the Rendezvous Server. This indicates 
+    an internal error in the Server
+
+NEW STATUS
+ER_RENDEZVOUS_SERVER_ERR503_STATUS_UNAVAILABLE value = 0x90d5 
+    Received a HTTP 503 status code from the Rendezvous Server. This indicates 
+    unavailability of the Server error state
+
+NEW STATUS
+ER_RENDEZVOUS_SERVER_ERR401_UNAUTHORIZED_REQUEST value = 0x90d6 
+    Received a HTTP 401 status code from the Rendezvous Server. This indicates 
+    that the client is unauthorized to send a request to the Server. The Client 
+    login procedure must be initiated.
+
+NEW STATUS
+ER_RENDEZVOUS_SERVER_UNRECOVERABLE_ERROR value = 0x90d7 
+    Received a HTTP status code indicating unrecoverable error from the 
+    Rendezvous Server. The connection with the Server should be re-established.
+
+NEW STATUS
+ER_RENDEZVOUS_SERVER_ROOT_CERTIFICATE_UNINITIALIZED value = 0x90d8 
+    Rendezvous Server root ceritificate uninitialized.
+NEW CLASS
+ajn::SetLinkTimeoutAsyncCB
+    Pure virtual base class implemented by classes that wish to call 
+    SetLinkTimeoutAsync().
+    
+CHANGED METHOD
+ajn::BusAttachment.BusAttachment(const char* applicationName, 
+                                 bool allowRemoteMessages = false, 
+                                 uint32_t concurrency = 4)
+    Construct a BusAttachment.
+
+    [param] applicationName     - Name of the application.
+    [param] allowRemoteMessages - True if this attachment is allowed to receive 
+                                  messages from remote devices.
+    [param] concurrency         - The maximum number of concurrent method and 
+                                  signal handlers locally executing.
+
+NEW METHOD
+ajn::BusAttachment.GetConcurrency()
+    Get the concurrent method and signal handler limit.
+
+NEW METHOD
+ajn::BusAttachment.EnableConcurrentCallbacks()
+    Allow the currently executing method/signal handler to enable concurrent 
+    callbacks during the scope of the handler's execution.
+
+NEW METHOD
+ajn::BusAttachment.SetLinkTimeoutAsync(SessionId sessionid,
+                                       uint32_t linkTimeout,
+                                       BusAttachment::SetLinkTimeoutAsyncCB* callback,
+                                       void* context = NULL)
+    Set the link timeout for a session.
+
+    Link timeout is the maximum number of seconds that an unresponsive 
+    daemon-to-daemon connection will be monitored before declaring the session 
+    lost (via SessionLost callback). Link timeout defaults to 0 which indicates 
+    that AllJoyn link monitoring is disabled.
+
+    Each transport type defines a lower bound on link timeout to avoid defeating 
+    transport specific power management algorithms.
+
+    This call executes asynchronously. When the JoinSession response is received, 
+    the callback will be called.
+
+    [param] sessionid     Id of session whose link timeout will be modified.
+    [param] linkTimeout   Max number of seconds that a link can be unresponsive 
+                          before being declared lost. 0 indicates that AllJoyn 
+                          link monitoring will be disabled. On return, this value 
+                          will be the resulting (possibly upward) adjusted 
+                          linkTimeout value that acceptable to the underlying 
+                          transport.
+    [param]  callback     Called when SetLinkTimeout response is received.
+    [param]  context      User defined context which will be passed as-is to callback.
+
+NEW METHOD
+ajn::BusAttachment.GetLinkTimeoutResponse(Message& reply, uint32_t& timeout)
+    Validate the response to SetLinkTimeout
+
+NEW METHOD
+ajn::BusAttachment.GetJoinSessionResponse(Message& reply, SessionId& sessionId, SessionOpts& opts)
+    Validate the response to JoinSession
+
+NEW CLASS PROPERTY
+ajn::BusAttachment.concurrency
+    The maximum number of concurrent method and signal handlers locally executing
+
+CHANGED METHOD
+ajn::BusObject.AddMethodHandler(const InterfaceDescription::Member* member, 
+                                MessageReceiver::MethodHandler handler, 
+                                void* context = NULL)
+    Add a method handler to this object. The interface for the method handler 
+    must have already been added by calling AddInterface().
+
+    [param] member  - Interface member implemented by handler.
+    [param] handler - Method handler.
+    [param] context - An optional context. This is mainly intended for 
+                      implementing language bindings and should normally be NULL.
+
+NEW VIRTUAL METHOD
+ajn::BusObject.CallMethodHandler(MessageReceiver::MethodHandler handler, 
+                                 const InterfaceDescription::Member* member, 
+                                 Message& message, void* context)
+    This method can be overridden to provide access to the context registered in 
+    the AddMethodHandler() call.
+
+    [param] member  - The method being called.
+    [param] handler - The handler to call.
+    [param] message - The message containing the method call arguments.
+    [param] context - NULL or a private context passed in when the method handler 
+                      was registered.
+
+NEW METHOD 
+ajn::_Message::GetErrorDescription() const
+    Returns a complete description of an error by concatenating the error name and the error
+    message together.
+    
+
+NEW METHOD
+ajn::_Message.SetEndianess(const char endian)
+    Set the endianess for outgoing messages. This is mainly for testing purposes.
+    
+    [param] endian - Either ALLJOYN_LITTLE_ENDIAN or ALLJOYN_BIG_ENDIAN. Any 
+                     other value sets the endianess to the native endianess for 
+                     this platform.
+                   
+NEW BIT MASK
+TRANSPORT_ICE value = 0x0020
+    TrasportMask identifying transport ICE protocol
+
+NEW METHOD
+qcc::ManagedObj.GetRefCount()
+    Get the reference count
+
+NEW METHOD
+qcc::String.append(const char c)
+    Append a single character to string.
+
+    [param] c - Character to append to string.
+
+NEW METHOD
+qcc::String.operator+=(const char c)
+    Append a character.
+
+    [param] c - Character to append to string.
+ 
+NEW CONSTANT
+qcc::String.Empty
+    Returns a reference to the empty string
+
+-------------------------------------------------------------------------------
+AllJoyn API Changes between v2.2.0 and v2.3.0 (C++ API)
+NEW STATUS
+ER_WARNING  value = 0x1D 
+    Generic warning
+
+NEW STATUS
+ER_BUS_ENDPOINT_REDIRECTED  value = 0x90a6 
+    Endpoint was redirected to another address
+
+CHANGED FUNCTION
+qcc::Send(SocketFd sockfd, const void* buf, size_t len, size_t& sent)
+    Changed in 2.3 a 5th [param] timeout was removed - used to set Max ms to wait 
+        for send to complete or 0 for infinite.
+    Send a buffer of data over a socket.
+ 
+    [param] sockfd - Socket descriptor.
+    [param] buf    - Pointer to the buffer containing the data to send.
+    [param] len    - Number of octets in the buffer to be sent.
+    [param] sent   - [OUT] Number of octets sent.
+
+CHANGED FUNCTION
+qcc::IncrementAndFetch(volatile int32_t* mem)
+    Changed in 2.3 function input marked as volatile
+    Increment an int32_t and return it's new value atomically.
+ 
+    [param] mem - Pointer to int32_t to be incremented.
+
+CHANGED FUNCTION
+qcc::DecrementAndFetch(volatile int32_t* mem)
+    Changed in 2.3 function input marked as volatile
+    Decrement an int32_t and return it's new value atomically.
+ 
+    [param] mem - Pointer to int32_t to be decremented.
+
+-------------------------------------------------------------------------------    
+AllJoyn API Changes between v2.1.0 and v2.2.0 (C++ API)
+NEW STATUS
+ER_ALLJOYN_SETLINKTIMEOUT_REPLY_NOT_SUPPORTED value = 0x90a0 
+    Local daemon does not support SetLinkTimeout
+
+NEW STATUS
+ER_ALLJOYN_SETLINKTIMEOUT_REPLY_NO_DEST_SUPPORT value = 0x90a1 
+    SetLinkTimeout not supported by destination
+
+NEW STATUS
+ER_ALLJOYN_SETLINKTIMEOUT_REPLY_FAILED value = 0x90a2 
+    SetLinkTimeout failed
+
+NEW STATUS
+ER_ALLJOYN_ACCESS_PERMISSION_WARNING value = 0x90a3 
+    No permission to use Wifi/Bluetooth
+
+NEW STATUS
+ER_ALLJOYN_ACCESS_PERMISSION_ERROR value = 0x90a4 
+    No permission to access peer service
+
+NEW STATUS
+ER_BUS_DESTINATION_NOT_AUTHENTICATED value = 0x90a5 
+    Cannot send a signal to a destination that is not authenticated
+
+NEW ALLJOYN METHOOD
+Interface: org.alljoyn.Bus
+Method: SetLinkTimeout(uint32_t sessionId, uint32_t linkTimeout)
+    Input params:
+    sessionId   - Id of session whose link timeout will be modified.
+ 
+    linkTimeout - Max number of seconds that a link can be unresponsive before being
+                  declared lost. 0 indicates that AllJoyn link monitoring will be disabled.
+
+    Output params:              
+    disposition      - One of the ALLJOYN_SETLINKTMEOUT_* dispositions listed below
+    replyLinkTimeout - On successful disposition, this value will contain the resulting
+                                   (possibly upward) adjusted linkTimeout value that is acceptable
+                                   to the underlying transport.
+
+NEW ALLJOYN METHOD
+Interface: org.alljoyn.Bus
+Method: AliasUnixUser(uint32_t aliasUID)
+ Input params:
+     aliasUID - The alias user id.
+ 
+ Output params:
+    disposition - One of the ALLJOYN_ALIASUNIXUSER_* dispositions
+
+NEW METHOD
+ajn::AuthListener.SetExpiration(uint32_t expiration)
+    Sets an expiration time in seconds relative to the current time for the credentials. This value is optional and
+    can be set on any response to a credentials request. After the specified expiration time has elapsed any secret
+    keys based on the provided credentials are invalidated and a new authentication exchange will be required. If an
+    expiration is not set the default expiration time for the requested authentication mechanism is used.
+    
+    [param] expiration - The expiration time in seconds.
+
+NEW METHOD
+ajn::AuthListener.GetExpiration()
+    Get the expiration time in seconds if it is set.
+
+NEW METHOD
+ajn::BusAttachment.Stop()
+    Stop the message bus.
+    
+    Ask the threading subsystem in the bus attachment to begin the
+    process of ending the execution of its threads.
+    
+    The Stop() method call on a bus attachment should be thought of as
+    mapping to a threading package stop function.  It asks the BusAttachment
+    to begin shutting down its various threads of execution, but does not
+    wait for any threads to exit.
+    
+    A call to Stop() is implied as one of the first steps in the destruction
+    of a bus attachment.
+    
+    [warning] There is no guarantee that a listener callback may begin executing
+    after a call to Stop().  To achieve that effect, the Stop() must be followed
+    by a Join().
+    
+    [see] ajn::BusAttachment.Start()
+    [see] ajn::BusAttachment.Join()
+
+REMOVED METHOD
+ajn::BusAttachment.Stop(bool blockUntilStopped = true)
+    Stop the message bus.
+    
+    [param] blockUntilStopped - Block the caller until the bus is stopped
+
+NEW METHOD
+ajn::BusAttachment.Join()
+    Wait for all of the threads spawned by the bus attachment to be
+    completely exited.
+    
+    A call to the Join() method should be thought of as mapping to a
+    threading package join function call.  It blocks and waits until all of
+    the threads in the BusAttachment have, in fact, exited their Run functions,
+    gone through the stopping state and have returned their status.  When
+    the Join() method returns, one may be assured that no threads are running
+    in the bus attachment, and therefore there will be no callbacks in
+    progress and no further callbacks will ever come out of the instance of a
+    bus attachment on which Join() was called.
+    
+    A call to Join() is implied as one of the first steps in the destruction
+    of a bus attachment.  Thus, when a bus attachment is destroyed, it is
+    guaranteed that before it completes its destruction process, there will be
+    no callbacks in process.
+    
+    [warning] If Join() is called without a previous Stop() it will result in
+              blocking "forever."
+    
+    [see] Start()
+    [see] Stop()
+
+REMOVED METHOD 
+ajn::BusAttachment.WaitStop()
+    Wait for the message bus to be stopped. This method blocks the calling thread until another thread
+    calls the Stop() method. Return immediately if the message bus has not been started.
+    
+CHANGED METHOD
+ajn::BusAttachment.GetUniqueName() const;
+    Changed in 2.2 method now returns a qcc::String before it returned a qcc::String reference
+    Get the unique name of this BusAttachment.
+
+NEW METHOD
+ajn::BusAttachment.SetKeyExpiration(const qcc::String& guid, uint32_t timeout)
+    Set the expiration time on keys associated with a specific remote peer as identified by its
+    peer GUID. The peer GUID associated with a bus name can be obtained by calling GetPeerGUID().
+    If the timeout is 0 this is equivalent to calling ClearKeys().
+    
+    [param] guid    - The GUID of a remote authenticated peer.
+    [param] timeout - The time in seconds relative to the current time to expire the keys.
+
+NEW METHOD
+ajn::BusAttachment.GetKeyExpiration(const qcc::String& guid, uint32_t& timeout)
+    Get the expiration time on keys associated with a specific authenticated remote peer as
+    identified by its peer GUID. The peer GUID associated with a bus name can be obtained by
+    calling GetPeerGUID().
+    
+    [param] guid    - The GUID of a remote authenticated peer.
+    [param] timeout - The time in seconds relative to the current time when the keys will expire.
+
+NEW METHOD
+ajn::BusAttachment.SetLinkTimeout(SessionId sessionid, uint32_t& linkTimeout)
+    Set the link timeout for a session.
+    
+    Link timeout is the maximum number of seconds that an unresponsive daemon-to-daemon connection
+    will be monitored before declaring the session lost (via SessionLost callback). Link timeout
+    defaults to 0 which indicates that AllJoyn link monitoring is disabled.
+    
+    Each transport type defines a lower bound on link timeout to avoid defeating transport
+    specific power management algorithms.
+    
+    [param] sessionid    - Id of session whose link timeout will be modified.
+    [param] linkTimeout  - [IN/OUT] Max number of seconds that a link can be unresponsive before being
+                           declared lost. 0 indicates that AllJoyn link monitoring will be disabled. On
+                           return, this value will be the resulting (possibly upward) adjusted linkTimeout
+                           value that acceptable to the underlying transport.
+
+CHANGED METHOD
+ajn::InterfaceDescription.AddMember(AllJoynMessageType type, const char* name, const char* inputSig, const char* outSig, const char* argNames, uint8_t annotation = 0, const char* accessPerms = 0)
+    param accessPerms added for 2.2.0 release
+    
+    Add a member to the interface.
+    
+    [param] type        - Message type.
+    [param] name        - Name of member.
+    [param] inputSig    - Signature of input parameters or NULL for none.
+    [param] outSig      - Signature of output parameters or NULL for none.
+    [param] argNames    - Comma separated list of input and then output arg names used in annotation XML.
+    [param] annotation  - Annotation flags.
+    [param] accessPerms - Required permissions to invoke this call
+
+CHANGED METHOD
+ajn::InterfaceDescription.AddMethod(const char* name, const char* inputSig, const char* outSig, const char* argNames, uint8_t annotation = 0, const char* accessPerms = 0)
+    param accessPerms added for 2.2.0 release
+    
+    Add a method call member to the interface.
+    
+    [param] name        - Name of method call member.
+    [param] inputSig    - Signature of input parameters or NULL for none.
+    [param] outSig      - Signature of output parameters or NULL for none.
+    [param] argNames    - Comma separated list of input and then output arg names used in annotation XML.
+    [param] annotation  - Annotation flags.
+    [param] accessPerms - Access permission requirements on this call
+
+CHANGED METHOD
+ajn::InterfaceDescription.AddSignal(const char* name, const char* sig, const char* argNames, uint8_t annotation = 0, const char* accessPerms = 0)
+    param accessPerms added for 2.2.0 release
+    
+    Add a signal member to the interface.
+    
+    [param] name        - Name of method call member.
+    [param] sig         - Signature of parameters or NULL for none.
+    [param] argNames    - Comma separated list of arg names used in annotation XML.
+    [param] annotation  - Annotation flags.
+    [param] accessPerms - Access permission requirements on this call
+
+NEW METHOD
+ajn::ProxyBusObject.SecureConnectionAsync(bool forceAuth = false)
+    Asynchronously secure the connection to the remote peer for this proxy object. Peer-to-peer
+    connections can only be secured if EnablePeerSecurity() was previously called on the bus
+    attachment for this proxy object. If the peer-to-peer connection is already secure this
+    function does nothing. Note that peer-to-peer connections are automatically secured when a
+    method call or signal requiring encryption is sent or received.
+    
+    Notification of success or failure is via the AuthListener passed to EnablePeerSecurity().
+    
+    [param] forceAuth - If true, forces an re-authentication even if the peer connection is already
+                        authenticated.
+                        
+NEW METHOD
+ajn::SessionListener.SessionMemberAdded(SessionId sessionId, const char* uniqueName)
+    Called by the bus when a member of a multipoint session is added.
+    
+    [param] sessionId  - Id of session whose member(s) changed.
+    [param] uniqueName - Unique name of member who was added.
+
+NEW METHOD
+ajn::SessionListener.SessionMemberRemoved(SessionId sessionId, const char* uniqueName)
+    Called by the bus when a member of a multipoint session is removed.
+    
+    [param] sessionId  - Id of session whose member(s) changed.
+    [param] uniqueName - Unique name of member who was removed.
+
+NEW METHOD
+ajn::ManagedObj.ManagedObj<T>(const ManagedObj<T>&other, bool isDeep)
+    Create a copy of managed object T.
+    
+    If isDeep is true
+    Create a deep (clone) copy of a managed object.
+    A ManagedObject created using this constructor copies the underlying T
+    object and wraps it in a new ManagedObject with 1 reference.
+    
+    if isDeep is false
+    Do not make a deep copy of the managed object instead make a new reference
+    to the existing object and increment the reference counter by +1.
+    
+    [param] other  - ManagedObject to make a copy of.
+    [param] isDeep - Specify if this is a deep (clone) copy or a normal copy
+
+NEW METHOD
+ajn::ManagedObj.iden(const ManagedObj<T>& other) const
+    Returns true if the two managed objects managed the same object
+    [param] other - The other managed object to compare.
+
+NEW MACRO FUNCTION
+QCC_DEPRECATED(func)
+    mark a function as depricated
+
+CHANGED FUNCTION
+qcc::Send(SocketFd sockfd, const void* buf, size_t len, size_t& sent, uint32_t timeout = 0)
+    param timeout added in 2.2.0 release
+    
+    Send a buffer of data over a socket.
+    
+    [param] sockfd  - Socket descriptor.
+    [param] buf     - Pointer to the buffer containing the data to send.
+    [param] len     - Number of octets in the buffer to be sent.
+    [param] sent    - OUT: Number of octets sent.
+    [param] timeout - Max ms to wait for send to complete or 0 for infinite.
+
+NEW METHOD
+qcc::String.assign(const char* str, size_t len)
+    Assign a value to a string
+    
+    [param] str - Value to assign to string.
+    [param] len - Number of characters to assign or 0 to insert up to first nul byte in str.
+
+NEW METHOD
+qcc::String.assign(const char* str)
+    Assign a nul-terminated string value to a string
+    
+    [param] str - Value to assign to string.
+    
+NEW METHOD
+qcc::String.revsubstr(size_t pos = 0, size_t n = npos) const
+    Return a substring of this string with the order of the characters reversed.
+    
+    [param]  pos - Starting position of substring.
+    [param]  n   - Number of bytes in substring.
+
+NEW MACRO DEFINITION
+PRIi64 
+    value = "I64i"
+    64-bit signed integer from C9x inttypes.h
+
+NEW MACRO DEFINITION
+PRIu64 
+    value = "I64u"
+    64-bit unsigned integer from C9x inttypes.h

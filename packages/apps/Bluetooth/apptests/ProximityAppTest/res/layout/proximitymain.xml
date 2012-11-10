@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+    <Button android:text="@string/Get_BT_devices" android:layout_height="wrap_content" android:id="@+id/buttonConnProximity" android:layout_width="match_parent"></Button>
+    <Button android:text="@string/Link_Loss_Service" android:layout_height="wrap_content" android:id="@+id/buttonLinkLoss" android:layout_width="match_parent"></Button>
+    <Button android:text="@string/Immediate_Alert_Service" android:layout_height="wrap_content" android:id="@+id/buttonImmAlert" android:layout_width="match_parent"></Button>
+    <Button android:text="@string/Tx_power_Service" android:id="@+id/buttonTxPower" android:layout_width="match_parent" android:layout_height="wrap_content"></Button>
+
+</LinearLayout>

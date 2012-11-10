@@ -1,0 +1,267 @@
+BlueZ D-Bus Attribute API description
+*************************************
+
+Copyright (C) 2004-2010  Marcel Holtmann <marcel@holtmann.org>
+
+Service details
+---------------
+
+One service object path for every remote SDP record or service in the
+attribute database. One service object path for every local SDP record
+or service from attribute database.
+
+Local services are children of the adapter object path. Remote services
+are children of the remote device object path. This doesn't solve the
+problem where local atttributes can have different instances based on
+the remote device.
+
+In general the idea is to also represent SDP records as services so that
+new style application can just use the service interfaces to retrieve the
+needed information. That way the usage of SDP and GATT would be mostly
+fully transparent and a differentiation becomes unimportant in the future.
+
+A service consists of some generic service information and a set of
+characteristics. All characteristic are presented as object path as well.
+
+
+Local Service hierarchy
+=======================
+
+Service		org.bluez
+Interface	org.bluez.Gatt
+Object path	[prefix]/{hci0}
+
+Methods		RegisterService(object service, uint16 size, string uuid, boolean sdp, boolean eir)
+			Register a GATT Service to handle a range of ATT attributes. Required Parameters
+			are the Object path to the D-Bus entity that will handle incoming ATT opcodes,
+			and the size of the service being registered measured in number of contiguous
+			attributes in the local dB. Optionally, a UUID (in standard uuid128 format) may
+			be provided, which will cause the requested service to appear in the local SDP dB,
+			and/or the local Extended Inquiry Response. This call will typically be made once in
+			the lifetime of the service such as during an App install.
+
+
+			A Failure response will be returned if the specified service object path has already
+			been registered, or if the requested space is unavailable in the local Attribute dB.
+
+		UnRegisterService(object service)
+			Remove a (Stopped) GATT Service handler from local Attribute dB. Called when the service
+			is uninstalled.
+
+			A Failure response will be returned if the service is currently started, or does not exist.
+
+		uint16 StartService(object service)
+			Start a GATT service that has previously been registered but not started. If service has
+			associated SDP or EIR properties, they will be registered at this time, and the service will
+			start receiving method calls.
+
+			Returned UINT16 will be the offset into Attribute dB the service resides.
+
+		StopService(object service)
+			Stop a GATT service that has previously been started, removing any associated SDP and EIR entries.
+			No method calls will be sent to the Service object path after this method returns.
+
+		Indicate(object remote, uint16 attrHandle, array bytes)
+			Send an ATT Indication to a remote device. Remote device must be currently connected.
+			attrHandle must be Normalized by adjusting for the current Attribute dB offset prior
+			to calling. The byte array may be truncated to fit outgoing MTU.
+
+			A Success return value will be returned if the remote devices successfully responds to the Indicate.
+
+		Notify(object remote, uint16 attrHandle, array bytes)
+			Send an ATT Notification to a remote device. Remote device must be currently connected.
+			attrHandle must be Normalized by adjusting for the current Attribute dB offset prior
+			to calling. The byte array may be truncated to fit outgoing MTU.
+
+			A Success return value will be returned if the remote devices was connected when the
+			Notify was issued, but the transaction is otherwise non-Reliable.
+
+
+Properties	array{dict{object, size}}	RegisteredServices
+			All services currently Registered, Active and Inactive
+
+		array{dict{object, range}}	ActiveServices
+			All services currently Active
+
+Local Service Handler hierarchy
+===============================
+
+Service		unique name
+Interface	org.bluez.GattServiceHandler
+Object path	freely definable but unique
+
+Methods		OffsetChanged(uint16 offset)
+			This method is called if the Master GATT server has reordered the Master Attribute dB.
+			The passed value replaces the starting offset originally returned by StartService.
+		
+		dict{offset, uuid} FindInformation(uint16 rangeStart, uint16 rangeEnd)
+			This method requests an attribute offset + uuid pair that exist within the requested range
+
+		dict{offset, byte array} Read(uint16 offset)
+			This method reads the requested Attribute, relative to the starting offset.
+
+		dict{offset, byte array} ReadUUID(string uuid, uint16 rangeStart, uint16 rangeEnd)
+			This method reads an attribute of the requested UUID if it exists within the requested range.
+
+		dict{start, end} GetGroupRange(string uuid, uint16 rangeStart, uint16 rangeEnd)
+			This method request a group start-end range that exists within the requested range.
+
+		Write(uint16 offset, byte array)
+			This method request a Write of the specified data, requiring a response.
+
+		WriteCmd(uint16 offset, byte array)
+			This method request a Write of the specified data, without a response.
+
+		WriteSignedCmd(uint16 offset, byte array)
+			This method request a Signed Write of the specified data, without a response.
+
+
+Properties	none.
+
+
+Device Service hierarchy
+========================
+
+Service		org.bluez
+Interface	org.bluez.Characteristic
+Object path	[prefix]/{hci0}/{device0}/{service0, service1, ...}
+		[prefix]/{hci0}/{device1}/{service0, service1, ...}
+
+Methods 	dict GetProperties()
+
+			Returns all properties for the interface. See the
+			Properties section for the available properties.
+
+		array{object} DiscoverCharacteristics()
+
+			Discover all characteristics that belongs in this service.
+			When it returns all the characteristics paths will be
+			already registered. It will return the characteristics paths
+			as soon as they are discovered. After that it will try to
+			read all values.
+
+		RegisterCharacteristicsWatcher(object agent)
+
+			Register a watcher to monitor characteristic changes.
+
+			A watcher will be registered for this service and will
+			notify about any changed characteristics in the service.
+			This also notifies about any included characteristics.
+
+		UnregisterCharacteristicsWatcher(object agent)
+
+			Unregister a watcher.
+
+Properties	string Name (mandatory) [readonly]
+
+			General name of service
+
+		string Description (optional) [readonly]
+
+			Description of service
+
+		string UUID (mandatory) [readonly]
+
+			UUID of service. Service class value for SDP and GATT
+			UUID for attribute based services.
+
+		array{object} Characteristics [readonly]
+
+			This list contains the characteristics owned by this
+			specific service and other characteristics from service
+			includes. That way no complicated service includes array
+			is needed.
+
+
+Device Characteristic hierarchy
+===============================
+
+Service		org.bluez
+Interface	org.bluez.Characteristic
+Object path	[prefix]/{hci0}/{device0}/{service0}/{characteristic0,...}
+		[prefix]/{hci0}/{device0}/{service1}/{characteristic0,...}
+
+Methods		dict GetProperties()
+
+			Returns all properties for the characteristic. See the
+			properties section for available properties.
+
+		void SetProperty(string name, variant value)
+
+			Changes the value of the specified property. Only
+			read-write properties can be changed.
+			This method requires no response from the server.
+
+			Possible Errors: org.bluez.Error.InvalidArguments
+
+		void SetPropertyCmd(string name, variant value)
+
+			Changes the value of the specified property. Only
+			read-write properties can be changed.
+			This method requires no response from the server.
+
+			Possible Errors: org.bluez.Error.InvalidArguments.
+
+		byte array UpdateValue()
+			 Read updated characteristic value from server.
+			 On success, the updated value is saved to Properties.
+
+Properties 	string UUID [readonly]
+
+			UUID128 of this characteristic.
+
+		string Name [readonly]
+
+			Optional field containing a friendly name for the
+			Characteristic UUID.
+
+		byte Properties [readonly]
+
+			Properties of the Characteristic.
+
+		string Description [readonly]
+
+			Textual optional characteristic descriptor describing
+			the Characteristic Value.
+
+		struct Format [readonly]
+
+			Optional Characteristic descriptor which defines the
+			format of the Characteristic Value. For numeric
+			values, the actual value can be value * 10^Exponent.
+			NameSpace and Description are defined on the Assigned
+			Number Specification.
+
+			  uint8  | Format: format of the value
+			  uint8  | Exponent: Field to determine how the value is
+			         | further formatted.
+			  uint16 | Unit: unit of the characteristic
+			  uint8  | NameSpace: Name space of description.
+			  uint16 | Description: Description of the characteristic defined
+			         | in a high layer profile.
+
+		uint16 ClientConfiguration [readwrite]
+
+			Optional Characteristic descriptor which defines the
+			Client Configuration for this Characteristic.
+
+		array{byte} Value [readwrite]
+
+			Raw value of the Characteristic Value attribute.
+
+		string Representation (of the binary Value) [readonly]
+
+			Friendly representation of the Characteristic Value
+			based on the format attribute.
+
+
+Characteristic Watcher hierarchy
+===============================
+
+Service		unique name
+Interface	org.bluez.Watcher
+Object path	freely definable
+
+Methods		void ValueChanged(object characteristic, array{byte})
+
+			New raw value of the Characteristic Value attribute.

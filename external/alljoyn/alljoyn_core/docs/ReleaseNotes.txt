@@ -1,0 +1,132 @@
+AllJoyn Version 2.5.1 Release Notes
+-----------------------------------
+
+Platform Support
+----------------
+1) Linux Ubuntu 10.10 64-bit (x86-64)
+2) Android Froyo 2.2 (ARM7)
+3) Android Gingerbread 2.3.4 (ARM7)
+4) Android Ice Cream Sandwich 4.0 (ARM7)
+FIXME #### Windows is not supported
+
+
+Features added in this release
+------------------------------
+
+FIXME #### Added support for ICE (IETF draft-ietf-mmusic-ice-19) based peer-to-peer
+FIXME #### connections.  This new feature allows peers to connect over IP networks when
+FIXME #### multicast is blocked or when 802.11 wireless isolation prevents the existing
+FIXME #### AllJoyn discovery and connect mechanisms from succeeding.
+
+FIXME #### Added an API (BusAttachment.EnableConcurrentCallbacks) for controlling
+FIXME #### concurrent method/signal handler callbacks. Previously, the AllJoyn client
+FIXME #### library did not concurrently dispatch user-defined method/signal handlers.  It
+FIXME #### did, however, concurrently dispatch certain AllJoyn control related callbacks
+FIXME #### such as BusListener.FoundAdvertisedName, etc. These control related callbacks
+FIXME #### are now under the control of the new EnableConcurrentCalbacks API.
+
+FIXME #### Added new API BusAttachment.SetLinkTimeoutAsync. This new method is an
+FIXME #### asynchronous form of the existing SetLinkTimeout call.
+
+FIXME #### Added GoogleTest based test framework to automate the testing of the AllJoyn
+FIXME #### core.
+
+
+Issues Addressed in this Release
+--------------------------------
+
+FIXME #### ALLJOYN-829: Changing link timeout via SetLinkTimeout now takes effect
+FIXME #### immediately. Previously, the link needed to receive at least one more message
+FIXME #### before the change would take effect.
+
+FIXME #### ALLJOYN-830: SetLinkTimeoutAsync was added to the external API to allow the user
+FIXME #### to set the link timeout from within the SessionPortListener::SessionJoined (or
+FIXME #### other AllJoyn) callback.
+
+FIXME #### ALLJOYN-907: LostAdvertisedName indication is no longer delayed when the client
+FIXME #### side disconnects prior to the service side.
+
+
+Known issues and limitations with this release
+----------------------------------------------
+
+FIXME #### ALLJOYN-1154: The number of names that can be advertised from a single AllJoyn
+FIXME #### daemon instance (either bundled or unbundled) over TCP is limited to about 1400
+FIXME #### bytes.
+
+FIXME #### ALLJOYN-1217: AllJoyn operation over Bluetooth is stable with up to 3
+FIXME #### devices. Some instabilites are seen with 4 or more devices.
+
+FIXME #### ALLJOYN-1228: Discovery times when using ICE / Rendezvous are sometimes longer
+FIXME #### than necessary due to proximity scanning.
+
+FIXME #### ALLJOYN-(various): Daemon crashes are possible when using the bundled version of
+FIXME #### the AllJoyn daemon. Because of this, use of the bundled daemon is not officially
+FIXME #### supported in 2.5.0
+
+FIXME #### QA testing for the 2.5.0 release was completed only on Android variants of the
+FIXME #### non-bundled daemon.
+
+
+Compatibility
+-------------
+
+Applications written for AllJoyn 1.X will need to be modified and rebuilt for
+use with AllJoyn 2.0 and later.
+
+The AllJoyn wire protocol related to encryption and authentication has changed
+in the 2.1.0 release. AllJoyn interfaces that use security will not
+inter-operate with devices whose AllJoyn version is less than 2.1.0.
+
+The AllJoyn wire protocol was modified to have a 128kB maximum message size
+starting with version 2.1.0. Earlier versions of AllJoyn which attempt to send
+messages that are greater than 128kB will not inter-operate with versions
+greater than or equal to 2.1.0.
+
+Starting with version 2.2.0, AllJoyn clients on Android must obtain the manifest
+permissions needed to access wifi and Bluetooth in order to reach external
+AllJoyn nodes. These permissions are INTERNET, CHANGE_WIFI_MULTICAST_STATE,
+BLUETOOTH and BLUETOOTH_ADMIN.
+
+Starting with version 2.2.0 BusAttachment::Stop(bool) and
+BusAttachment::WaitStop() were changed to BusAttachment::Stop() and
+BusAttachment::Join() to be more consistent with the internal threading model of
+AllJoyn (ALLJOYN-803).
+
+Starting with version 2.5.0, AllJoyn control related callbacks such as
+BusListener::FoundAdvertisedName cannot make AllJoyn remote procedure calls or
+any type of blocking call without first enabling concurrent callbacks via the
+new BusAttachment.EnableConcurrentCallbacks() API.
+
+
+Change history
+--------------
+2.5.0 - FIXME ####
+
+2.3.5 - Bug fixes.
+
+2.3.3 - Bug fixes.
+
+2.3.2 - Bug fixes.
+
+2.3.1 - Bug fixes.
+
+2.3.0 - Added support for dynamic enable/disable of Bluetooth device on 
+        Windows. Alpha support for Android ICS. BT and Windows stability.
+
+2.2.0 - Support for bundled daemon. BT fixes. Minor mods to security API.
+        Support for link timeout. Support for Android manifest enforced
+        security. Support for parallel authentication. Added
+        SessionMemberAdded/SessionMemberRemoved. Added BusAttachment::release()
+        to Java binding. Support for BusAttachment::Set/GetKeyExpiration().
+        Support for Windows CNG.
+
+2.1.0 - Added Java thread safety. Security fixes. Minor mods to security API.
+        Added AllJoyn.apk for non-rooted devices (wifi only).
+
+2.0.1 - Bug fixes.
+
+2.0.0 - Added sessions and topology management.
+        API's and daemon protocols changed.
+
+1.8.0 - Initial Open Source Release

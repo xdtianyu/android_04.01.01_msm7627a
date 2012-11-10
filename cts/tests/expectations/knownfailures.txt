@@ -1,0 +1,77 @@
+[
+  {
+    names: [
+      "com.android.cts.appsecurity.AppSecurityTests#testReadExternalStorageEnforced",
+      "com.android.cts.appsecurity.AppSecurityTests#testReadExternalStorageUnenforced"
+    ],
+    bug: 6721185
+  },
+  {
+    name: "android.accessibilityservice.cts.AccessibilityTextTraversalTest#testActionNextAndPreviousAtGranularityPageOverText",
+    bug: 6468754
+  },
+  {
+    name: "android.accessibilityservice.cts.AccessibilityWindowQueryTest#testPerformGlobalActionBack",
+    bug: 6365037
+  },
+  {
+    names: [
+      "android.media.cts.StreamingMediaPlayerTest#testRTSP_MPEG4SP_AAC_Video1",
+      "android.media.cts.StreamingMediaPlayerTest#testRTSP_MPEG4SP_AAC_Video2"
+    ],
+    bug: 6422606
+  },
+  {
+    names: [
+      "android.media.cts.StreamingMediaPlayerTest#testRTSP_H263_AMR_Video1",
+      "android.media.cts.StreamingMediaPlayerTest#testRTSP_H263_AMR_Video2"
+    ],
+    bug: 6216077
+  },
+  {
+    names: [
+      "android.media.cts.StreamingMediaPlayerTest#testRTSP_H264Base_AAC_Video1",
+      "android.media.cts.StreamingMediaPlayerTest#testRTSP_H264Base_AAC_Video2"
+    ],
+    bug: 6215719
+  },
+  {
+    name: "android.nativemedia.sl.SLObjectCreationTest#testAudioRecorderCreation",
+    bug: 4970300
+  },
+  {
+    name: "android.opengl.cts.AttachShaderTest#test_glAttachedShaders_invalidshader",
+    bug: 6404341
+  },
+  {
+    name: "android.openglperf.cts.GlVboPerfTest#testVboWithVaryingIndexBufferNumbers",
+    bug: 5898262
+  },
+  {
+    name: "android.text.cts.AndroidCharacterTest#testMirror",
+    bug: 4371654
+  },
+  {
+    name: "android.text.format.cts.DateUtilsTest#test2038",
+    bug: 6293653
+  },
+  {
+    description: "flakey libcore tests",
+    names: [
+      "libcore.java.net.ConcurrentCloseTest",
+      "libcore.java.net.SocketTest#testAvailable",
+      "libcore.java.net.URLConnectionTest",
+      "libcore.java.util.prefs.OldAbstractPreferencesTest",
+      "libcore.java.util.prefs.OldPreferencesTest#testAddNodeChangeListener",
+      "libcore.net.http.HttpResponseCacheTest#testClientPrematureDisconnectWithChunkedEncoding",
+      "org.apache.harmony.luni.tests.java.net.URLConnectionTest",
+      "org.apache.harmony.xnet.provider.jsse.NativeCryptoTest#test_SSL_do_handshake_server_timeout"
+    ]
+  },
+  {
+    description: "MediaPlayerFlakyNetworkTest tests",
+    name: "android.media.cts.MediaPlayerFlakyNetworkTest",
+    bug: 6782035
+  }
+]
+

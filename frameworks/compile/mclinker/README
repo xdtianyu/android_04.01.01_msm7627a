@@ -1,0 +1,64 @@
+------------------------------------------------------------------------------
+                            MCLinker Project
+------------------------------------------------------------------------------
+============
+Introduction
+============
+  MCLinker is a linkage editor.
+
+========================
+Compilation Instructions
+========================
+  The simplest way to compile this package is:
+
+----------------------
+Prepare LLVM and Clang
+----------------------
+  0.a Download LLVM 3.1@r155090
+      `svn co -r 155090 http://llvm.org/svn/llvm-project/llvm/trunk llvm-src'
+
+  0.b Type `cd llvm-src' to enter the directory containing LLVM source code
+
+  0.c Apply patches from MCLinker
+      `patch -p0 < ${MCLinker}/patch/LLVM.patch'
+
+  0.d Download Clang @r155088
+      `cd tools'
+      `svn co -r 155088 http://llvm.org/svn/llvm-project/cfe/trunk clang'
+
+  0.e Build and install LLVM
+      `cd ../../'
+      `mkdir llvm-build && cd ./llvm-build'
+      `../llvm/configure --prefix=${LLVM_INSTALL}'
+      `make all install'
+
+--------------
+Build MCLinker
+--------------
+
+  1.  Type `cd ${MCLinker}' to the directory containing the source code.
+
+  2.  source ./scripts/envsetup.sh
+
+  3.  If there are no `configure' shell script in the directory, type
+      `./autogen.sh' to generate `configure' script.
+
+  4.  Type `./configure` to configure the package for your system. See INSTALL
+      for more details.
+
+  5.  Type `make` to compile the package
+
+  6.  Type `make install` to install the package into your system.
+
+===================
+Directory Structure
+===================
+README               - this document
+Makefile.am          - input of automake
+configure.ac         - input of autoconf
+src/                 - source code of verification tool
+include/             - include file, exported interface
+lib/                 - source code of exported interface
+debug/               - placeholder of object files which are compiled for debugging
+optimized/           - placeholder of object files which are compiled for optimization
+test/                - placeholder of testcases

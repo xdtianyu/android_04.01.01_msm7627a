@@ -1,0 +1,113 @@
+Submitting contributions to the AllJoyn™ Open Source Project
+
+How to create a patch for the Alljoyn source and submit it to alljoyn.org
+=========================================================================
+
+Below are instructions on how to generate a patch containing your software
+changes, and submit it to alljoyn.org via e-mail. If you are downloading the
+AllJoyn source for the first time, please see [the project homepage][1].
+
+Ground rules for submitting AllJoyn patches
+-------------------------------------------
+  1. Register your name and e-mail address with alljoyn.org
+    * Send the patch from the same e-mail address you used to register when
+clicking through the [contribution agreement][2] (CLA).
+    * Review the [contribution guidelines][3]
+    * Enter your registered name and e-mail address into repo and git. The
+"author" (name and e-mail address) in your git patches must match your
+registered name and address, i.e. the 'user.email' variable must contain the
+same email as the one used for the [CLA][2].
+
+  2. One e-mail message must contain one AllJoyn patch
+    * Each AllJoyn patch must be transmitted as a single e-mail message.
+Multiple git patches can be bundled into a single e-mail message and submitted
+as a single AllJoyn patch.
+    * Each AllJoyn patch should be self-contained. For example, if you have
+two separate patches that depend on each other to work, please make sure to
+bundle and submit as a single patch. If sent separately, you will run the risk
+of both patches being rejected - even if you sent both e-mails at the same
+time.
+    * Alljoyn.org cannot accept e-mail attachments. Git patches must be be
+sent as plain text in the body of the e-mail.
+
+  3. One git project at a time
+    * Each AllJoyn patch can affect only one AllJoyn git project. For example,
+you may not include git patches for both alljoyn_core and alljoyn_java in the
+same patch e-mail.
+
+  4. Save that workspace!
+    * E-mails can get lost; a patch may need to be reworked and re-submitted.
+Whenever you submit an AllJoyn patch, please save the working directory it
+came from and start a new working directory if needed.
+
+Create the AllJoyn patch and e-mail to alljoyn.org
+--------------------------------------------------
+**Note**: You must send the email from the same e-mail address you registered
+when signing the [CLA][2].
+
+>
+>         cd <alljoyn project>
+>         git format-patch --stdout github/master > patch.file
+>
+
+The following information needs to be added before the patch files in the body
+of the email. The easiest way to do this is to edit the patch file before
+mailing it.
+
+  1. PROJECT= the git project the patch applies to (alljoyn_core, for
+example).
+  2. BRANCH= the **git branch** the patch applies to (for example, B01.08).
+This is an optional field, it can be omitted if the patch is for master.
+  3. TITLE= a one-line title for the patch.
+  4. DESCRIPTION= a brief, multi-line description of what the patch is for, if
+it is related to other patches, and so on. Everything following the '=' until
+the separator described next is considered to be part of the description. i.e.
+do not include any of the items listed above after this one as they will not
+get handled correclty.
+  5. A line consisting of three or more '---' characters.
+
+An example edited patch file might look like the following:
+
+>
+>       PROJECT=alljoyn_java
+>       BRANCH=master
+>       TITLE=Support AllJoyn discovery on XYZ
+>       DESCRIPTION=This patch fixes multiple problems
+>       with the AllJoyn discovery protocol on XYZ devices.
+>       ---
+>
+>       From 6d8055078aeff93e7e9c665c1704def0cf4183ff Mon Sep 17 01:27:11 2011
+>       From: Joe AllJoyn <joe@alljoynlover.com>
+>       Date: Thu, 20 Jan 2011 15:58:37 -0800
+>       Subject: [PATCH 1/2] add something simple 1
+>
+>       ---
+>        SConscript |    2 ++
+>        1 files changed, 2 insertions(+), 0 deletions(-)
+>
+>       diff --git a/SConscript b/SConscript
+>       index cd8a8fb..223d0aa 100644
+>       --- a/SConscript
+>       +++ b/SConscript
+>       @@ -13,6 +13,8 @@
+>
+>       (etc...)
+>
+
+You can either edit the patch file and e-mail it directly...
+
+         mail < patch.file submissions@alljoyn.org
+
+...or, use your favorite e-mail client:
+
+  * set the message format to "plain text"
+  * copy the entire edited patch file into your e-mail editor
+  * hit send!
+
+**Note:** Make sure that your mail client doesn't insert any hard line wraps
+as that will break the patch.
+
+
+   [1]: http://alljoyn.github.com
+   [2]: http://www.alljoyn.org/alljoyn-contribution-agreement
+   [3]: http://www.alljoyn.org/contribute

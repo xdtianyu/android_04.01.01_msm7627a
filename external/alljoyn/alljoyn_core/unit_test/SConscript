@@ -1,0 +1,122 @@
+# Copyright 2011-2012, Qualcomm Innovation Center, Inc.
+# 
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+# 
+#        http://www.apache.org/licenses/LICENSE-2.0
+# 
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+import os
+
+Import('env')
+
+if(not(env.has_key('GTEST_DIR'))):
+    print('GTEST_DIR not specified skipping alljoyn_core unit test build')
+else:
+    gtest_env = env.Clone();
+    gtest_dir = gtest_env['GTEST_DIR']
+    vars = Variables();
+    vars.AddVariables(('GTEST_HOME', '', gtest_dir))
+    vars.Update(gtest_env)
+    if( gtest_env['OS_CONF'] == 'windows'):
+        # gTest does not require the same CPPDEFINES as AllJoyn core.
+        gtest_env.Append(CPPDEFINES = ['WIN32', '_LIB'])
+        # don't use the _DEBUG define unless the /MDd compiler flag is specified
+        #gtest_env.Append(CPPDEFINES = ['WIN32', '_DEBUG', '_LIB'])
+        
+    # tr1::tuple is not avalible for android or darwin
+    if(env['OS_CONF'] == 'android' or env['OS_CONF'] == 'darwin'):
+        gtest_env.Append(CPPDEFINES = ['GTEST_HAS_TR1_TUPLE=0'])
+    #we compile with no rtti and we are not using exceptions. 
+    gtest_env.Append(CPPDEFINES = ['_HAS_EXCEPTIONS=0', 'GTEST_HAS_RTTI=0'])
+    # we replace AllJoyn's include CPPPATH options.  AllJoyn includes stlport that will cause the 
+    # gTest code to not compile as expected at this time
+    gtest_env.Replace(CPPPATH = [gtest_env.Dir('$GTEST_DIR'), gtest_env.Dir('$GTEST_DIR/include')])
+    if(env['OS_CONF'] == 'android'):
+        # Android include paths
+	if (env.subst('$ANDROID_NDK_VERSION') == '8b'):
+            gtest_env.Append(CPPPATH=['$ANDROID_NDK/platforms/android-$ANDROID_API_LEVEL/arch-arm/usr/include',
+                                      #Using GNU STL instead of STLPORT
+                                      '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/4.6/include',
+                                      '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/4.6/include/backward',
+                                      '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi/include'])
+	elif (env.subst('$ANDROID_NDK_VERSION') == '5' or 
+	    env.subst('$ANDROID_NDK_VERSION') == '6' or
+	    env.subst('$ANDROID_NDK_VERSION') == '7' or
+	    env.subst('$ANDROID_NDK_VERSION') == '8'):
+            gtest_env.Append(CPPPATH=['$ANDROID_NDK/platforms/android-$ANDROID_API_LEVEL/arch-arm/usr/include',
+                                      #Using GNU STL instead of STLPORT
+                                      '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/include',
+                                      '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/include/backward',
+                                      '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/libs/armeabi/include'])
+    gtest_obj = gtest_env.StaticObject(target = 'gtest-all', source = ['$GTEST_DIR/src/gtest-all.cc'])
+    gtest_env.StaticLibrary(target = 'gtest', source = gtest_obj)
+    
+    #tests currently don't need to compile gtest main.
+    #gtest_main_obj = gtest_env.StaticObject(target = '$OBJDIR/gtest_main', source = ['$GTEST_DIR/src/gtest_main.cc'])
+    #gtest_main_lib = gtest_env.StaticLibrary(target = '$OBJDIR/gtest_main', source = gtest_main_obj)    
+    
+    test_src = env.Glob('*.cc')
+
+    unittest_env = env.Clone()
+
+    gtest_dir = unittest_env['GTEST_DIR']
+    # use the relative path from the build directory.
+    # include all header files even if they will not be in the public repository.  
+    unittest_env.Replace(CPPPATH = [gtest_dir + '/include', 
+                                '../../../../../../../alljoyn_core/inc',
+                                '../../../../../../../alljoyn_core/src', 
+                                '../../../../../../../common/inc'])
+    if(env['OS_CONF'] == 'android'):
+        # Determine Android NDK version
+        if os.path.exists(env.subst('$ANDROID_NDK/toolchains')):
+            ndkVersion = 5
+        else:
+            print 'Cannot determine Android NDK version'
+        # Android include paths
+	if (env.subst('$ANDROID_NDK_VERSION') == '8b'):
+            unittest_env.Append(CPPPATH=['$ANDROID_NDK/platforms/android-$ANDROID_API_LEVEL/arch-arm/usr/include',
+                                      #Using GNU STL instead of STLPORT
+                                      '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/4.6/include',
+                                      '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/4.6/include/backward',
+                                      '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi/include',
+                                      '$ANDROID_SRC/external/bluetooth/bluez/include',
+                                      '$ANDROID_SRC/external/openssl/include'])
+	elif (env.subst('$ANDROID_NDK_VERSION') == '5' or 
+	    env.subst('$ANDROID_NDK_VERSION') == '6' or
+	    env.subst('$ANDROID_NDK_VERSION') == '7' or
+	    env.subst('$ANDROID_NDK_VERSION') == '8'):
+            unittest_env.Append(CPPPATH=['$ANDROID_NDK/platforms/android-$ANDROID_API_LEVEL/arch-arm/usr/include',
+                                #Using GNU STL instead of STLPORT
+                                '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/include',
+                                '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/include/backward',
+                                '$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/libs/armeabi/include',
+                                '$ANDROID_SRC/external/bluetooth/bluez/include',
+                                '$ANDROID_SRC/external/openssl/include'])
+
+    #we compile with no rtti and we are not using exceptions.
+    unittest_env.Append(CPPDEFINES = ['_HAS_EXCEPTIONS=0', 'GTEST_HAS_RTTI=0'])
+    
+    # tr1::tuple is not avalible for android or darwin
+    if(env['OS_CONF'] == 'android' or env['OS_CONF'] == 'darwin'):
+        unittest_env.Append(CPPDEFINES = ['GTEST_HAS_TR1_TUPLE=0'])
+    #gtest library file is placed on folder above the the object files.
+    unittest_env.Append(LIBPATH = ['./'])
+    #the linker must be able to find stlport for android
+    if(env['OS_CONF'] == 'android'):
+        unittest_env.Append(LIBPATH = ['$ANDROID_NDK/platforms/android-$ANDROID_API_LEVEL/arch-arm/usr/lib'])
+    unittest_env.Prepend(LIBS = ['gtest'])
+
+    obj = unittest_env.Object(test_src);
+        
+    unittest_prog = unittest_env.Program('ajtest', obj)
+    unittest_env.Install('$TESTDIR/bin', unittest_prog)
+
+    #install gtest utilities
+    env.Install('$TESTDIR/bin', Dir('test_report').srcnode())

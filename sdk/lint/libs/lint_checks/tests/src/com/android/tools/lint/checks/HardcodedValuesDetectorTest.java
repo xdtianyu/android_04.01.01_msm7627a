@@ -1,0 +1,47 @@
+/*
+ * Copyright (C) 2011 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.android.tools.lint.checks;
+
+import com.android.tools.lint.detector.api.Detector;
+
+@SuppressWarnings("javadoc")
+public class HardcodedValuesDetectorTest  extends AbstractCheckTest {
+    @Override
+    protected Detector getDetector() {
+        return new HardcodedValuesDetector();
+    }
+
+    public void testStrings() throws Exception {
+        assertEquals(
+            "accessibility.xml:3: Warning: [I18N] Hardcoded string \"Button\", " +
+                "should use @string resource\n" +
+            "accessibility.xml:6: Warning: [I18N] Hardcoded string \"Button\", " +
+                "should use @string resource",
+            lintFiles("res/layout/accessibility.xml"));
+    }
+
+    public void testSuppress() throws Exception {
+        // All but one errors in the file contain ignore attributes - direct, inherited
+        // and lists
+        assertEquals(
+            "ignores.xml:61: Warning: [I18N] Hardcoded string \"Hardcoded\", should use " +
+            "@string resource",
+
+            lintFiles("res/layout/ignores.xml"));
+    }
+
+}

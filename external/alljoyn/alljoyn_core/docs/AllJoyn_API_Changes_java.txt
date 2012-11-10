@@ -1,0 +1,422 @@
+-------------------------------------------------------------------------------
+This document contains a list of changes to the Java AllJoyn API.
+Each Status, Method, or class will be marked as follows:
+'NEW': API code that was added to the release.
+'CHANGED': API code that has been changed since the last release.  
+'REMOVED': API code that has been deleted from the release and can no longer be 
+           used.
+'DEPRECATED': API code that has been marked as deprecated.   
+
+
+Each addition should contain a short explanation of what added or changed.
+For more information please refer to the API documentation. 
+-------------------------------------------------------------------------------
+AllJoyn API Changes between v2.3.0 and v2.5.0 (Java API)
+
+NEW STATUS
+THREADPOOL_EXHAUSTED  value = 0x101f 
+    A thread pool has reached its specified concurrency
+
+NEW STATUS
+THREADPOOL_STOPPING  value = 0x1020 
+    Cannot execute a closure on a stopping thread pool
+
+NEW STATUS
+BUS_AUTHENTICATION_PENDING value = 0x90a7 
+    Authentication of remote peer is pending
+
+NEW STATUS
+BUS_NOT_AUTHORIZED value = 0x90a8 
+    Operation was not authorized
+
+NEW STATUS
+PACKET_BUS_NO_SUCH_CHANNEL value = 0x90a9 
+    Received packet for unknown channel
+
+NEW STATUS
+PACKET_BAD_FORMAT value = 0x90aa 
+    Received packet with incorrect header information
+
+NEW STATUS
+PACKET_CONNECT_TIMEOUT value = 0x90ab 
+    Timed out waiting for connect response
+
+NEW STATUS
+PACKET_CHANNEL_FAIL value = 0x90ac 
+    Failed to create new comm channel
+
+NEW STATUS
+PACKET_TOO_LARGE value = 0x90ad 
+    Message too large for use with packet based transport
+
+NEW STATUS
+PACKET_BAD_PARAMETER value = 0x90ae 
+    Invalid PacketEngine control packet received
+
+NEW STATUS
+PACKET_BAD_CRC value = 0x90af 
+    Packet has invalid CRC
+
+NEW STATUS
+STUN_ATTR_SIZE_MISMATCH value = 0x90b0 
+    STUN attribute size does not match size parsed
+
+NEW STATUS
+STUN_AUTH_CHALLENGE value = 0x90b1 
+    STUN server has denied request, issued Challenge
+
+NEW STATUS
+STUN_SOCKET_NOT_OPEN value = 0x90b2 
+    Underlying socket not open for operation
+
+NEW STATUS
+STUN_SOCKET_OPEN value = 0x90b3 
+    Underlying socket alread open
+
+NEW STATUS
+STUN_FAILED_TO_SEND_MSG value = 0x90b4 
+    Failed to send STUN message
+
+NEW STATUS
+STUN_FRAMING_ERROR value = 0x90b5 
+    Application specified invalid TCP framing
+
+NEW STATUS
+STUN_INVALID_ERROR_CODE value = 0x90b6 
+    Invalid STUN error code
+
+NEW STATUS
+STUN_INVALID_FINGERPRINT value = 0x90b7 
+    Fingerprint CRC does not match
+
+NEW STATUS
+STUN_INVALID_ADDR_FAMILY value = 0x90b8 
+    Invalid address family value in STUN 'address' attribute
+
+NEW STATUS
+STUN_INVALID_MESSAGE_INTEGRITY value = 0x90b9 
+    SHA1-HMAC message integrity value does not match. When passed to upper layer, 
+    indicates unauthorized response, message must be ignored
+
+NEW STATUS
+STUN_INVALID_MSG_TYPE value = 0x90ba 
+    Invalid STUN message type
+
+NEW STATUS
+STUN_INVALID_ATTR_TYPE value = 0x90bb 
+    Invalid STUN message attribute type
+
+NEW STATUS
+STUN_RESPONSE_WITH_USERNAME value = 0x90bc 
+    STUN response message included a USERNAME attribute
+
+NEW STATUS
+STUN_ERR400_BAD_REQUEST value = 0x90bd 
+    Received bad STUN request, upper layer must send error code 400
+
+NEW STATUS
+STUN_BAD_INDICATION value = 0x90be 
+    Received bad STUN indication, upper layer must ignore message
+
+NEW STATUS
+STUN_ERR401_UNAUTHORIZED_REQUEST value = 0x90bf 
+    Received STUN request with invalid USERNAME or invalid MESSAGE-INTEGRITY, 
+    upper layer must send error code 401
+
+NEW STATUS
+STUN_TOO_MANY_ATTRIBUTES value = 0x90c0 
+    Too many attributes in STUN message or unknown attributes list
+
+NEW STATUS
+STUN_DUPLICATE_ATTRIBUTE value = 0x90c1 
+    STUN message attribute must only be added once
+
+NEW STATUS
+STUN_UNAUTHORIZED_INDICATION value = 0x90c2 
+    Receive STUN indication with invalid USERNAME or invalid MESSAGE-INTEGRITY, 
+    upper layer must ignore message
+
+NEW STATUS
+ICE_ALLOCATING_MEMORY value = 0x90c3 
+    Unable to allocate heap from ICE
+
+NEW STATUS
+ICE_CHECKS_INCOMPLETE value = 0x90c4 
+    ICE Checks have not completed
+
+NEW STATUS
+ICE_ALLOCATE_REJECTED_NO_RESOURCES value = 0x90c5 
+    TURN server rejected ALLOCATE request
+
+NEW STATUS
+ICE_ALLOCATION_QUOTA_REACHED value = 0x90c6 
+    TURN server rejected with 486
+
+NEW STATUS
+ICE_ALLOCATION_MISMATCH value = 0x90c7 
+    TURN server has expired the allocation
+
+NEW STATUS
+ICE_STUN_ERROR value = 0x90c8 
+    Generic ICE error
+
+NEW STATUS
+ICE_INVALID_STATE value = 0x90c9 
+    ICE Agent is not in proper state to perform request
+
+NEW STATUS
+ICE_UNKNOWN_COMPONENT_ID value = 0x90ca 
+    ICE Component type is not recognized
+
+NEW STATUS
+RENDEZVOUS_SERVER_DEACTIVATED_USER value = 0x90cb 
+    Rendezvous Server has deactivated the current user. Register with the 
+    Rendezvous Server to continue.
+
+NEW STATUS
+RENDEZVOUS_SERVER_UNKNOWN_USER value = 0x90cc 
+    Rendezvous Server does not recognize the current user. Register with the 
+    Rendezvous Server to continue.
+
+NEW STATUS
+UNABLE_TO_CONNECT_TO_RENDEZVOUS_SERVER value = 0x90cd 
+    Unable to connect to the Rendezvous Server
+
+NEW STATUS
+NOT_CONNECTED_TO_RENDEZVOUS_SERVER value = 0x90ce 
+    Not connected to the Rendezvous Server
+
+NEW STATUS
+UNABLE_TO_SEND_MESSAGE_TO_RENDEZVOUS_SERVER value = 0x90cf 
+    Unable to send message to the Rendezvous Server
+
+NEW STATUS
+INVALID_RENDEZVOUS_SERVER_INTERFACE_MESSAGE value = 0x90d0 
+    Invalid Rendezvous Server interface message
+
+NEW STATUS
+INVALID_PERSISTENT_CONNECTION_MESSAGE_RESPONSE value = 0x90d1 
+    Invalid message response received over the Persistent connection with the 
+    Rendezvous Server
+
+NEW STATUS
+INVALID_ON_DEMAND_CONNECTION_MESSAGE_RESPONSE value = 0x90d2 
+    Invalid message response received over the On Demand connection with the 
+    Rendezvous Server
+
+NEW STATUS
+INVALID_HTTP_METHOD_USED_FOR_RENDEZVOUS_SERVER_INTERFACE_MESSAGE value = 0x90d3 
+    Invalid HTTP method type used for Rendezvous Server interface message
+
+NEW STATUS
+RENDEZVOUS_SERVER_ERR500_INTERNAL_ERROR value = 0x90d4 
+    Received a HTTP 500 status code from the Rendezvous Server. This indicates 
+    an internal error in the Server
+
+NEW STATUS
+RENDEZVOUS_SERVER_ERR503_STATUS_UNAVAILABLE value = 0x90d5 
+    Received a HTTP 503 status code from the Rendezvous Server. This indicates 
+    unavailability of the Server error state
+
+NEW STATUS
+RENDEZVOUS_SERVER_ERR401_UNAUTHORIZED_REQUEST value = 0x90d6 
+    Received a HTTP 401 status code from the Rendezvous Server. This indicates 
+    that the client is unauthorized to send a request to the Server. The Client 
+    login procedure must be initiated.
+
+NEW STATUS
+RENDEZVOUS_SERVER_UNRECOVERABLE_ERROR value = 0x90d7 
+    Received a HTTP status code indicating unrecoverable error from the 
+    Rendezvous Server. The connection with the Server should be re-established.
+
+NEW STATUS
+RENDEZVOUS_SERVER_ROOT_CERTIFICATE_UNINITIALIZED value = 0x90d8 
+    Rendezvous Server root ceritificate uninitialized.
+    
+NEW METHOD
+BusAttachment.enableConcurrentCallbacks()
+    Enable callbacks within the context of the currently executing method
+    handler, signal handler or other AllJoyn callback.
+    
+    This method can ONLY be called from within the body of a signal handler,
+    method handler or other AllJoyn callback. It allows AllJoyn to dispatch 
+    a single (additional) callback while the current one is still executing.
+    This method is typically used when a method, signal handler or other
+    AllJoyn callback needs to execute for a long period of time or when the 
+    callback needs to make any kind of blocking call.
+    
+    This method MUST be called prior to making any non-asynchronous AllJoyn 
+    remote procedure calls from within an AllJoyn callback. This includes
+    calls such as joinSession(), advertiseName(), cancelAdvertisedName(),
+    findAdvertisedName(), cancelFindAdvertisedName(), setLinkTimeout(), etc.
+
+
+NEW METHOD
+BusListener.busDisconnected()
+    Called when a BusAttachment this listener is registered with is has become 
+    disconnected from the bus
+
+NEW CONSTANT
+SessionOpts.TRANSPORT_ICE
+    Use only ICE transport to communicate with a given session
+
+
+-------------------------------------------------------------------------------
+AllJoyn API Changes between v2.2.0 and v2.3.0 (Java API)
+NEW STATUS
+WARNING value="0x1D"
+    Generic warning.
+
+NEW STATUS
+ALLJOYN_SETLINKTIMEOUT_REPLY_NOT_SUPPORTED value="0x90a0"
+    Local daemon does not support SetLinkTimeout.
+
+NEW STATUS    
+ALLJOYN_SETLINKTIMEOUT_REPLY_NO_DEST_SUPPORT value="0x90a1"
+    SetLinkTimeout not supported by destination.
+    
+NEW STATUS    
+ALLJOYN_SETLINKTIMEOUT_REPLY_FAILED value="0x90a2"
+    SetLinkTimeout failed.
+    
+NEW STATUS    
+ALLJOYN_ACCESS_PERMISSION_WARNING value="0x90a3"
+    No permission to use Wifi/Bluetooth.
+
+NEW STATUS
+ALLJOYN_ACCESS_PERMISSION_ERROR value="0x90a4"
+    No permission to access peer service.
+
+NEW STATUS
+BUS_DESTINATION_NOT_AUTHENTICATED value="0x90a5"
+    Cannot send a signal to a destination that is not authenticated.
+
+NEW STATUS
+BUS_ENDPOINT_REDIRECTED value="0x90a6"
+    Endpoint was redirected to another address.
+-------------------------------------------------------------------------------
+AllJoyn API Changes between v2.1.0 and v2.2.0 (Java API)
+NEW CLASS
+Class ExpirationRequest added to AuthListener
+    ExpirationRequest.setExpiration(int expiration)
+        Sets an expiration time in seconds relative to the current time for
+        the credentials. This value is optional and can be set on any
+        response to a credentials request. After the specified expiration
+        time has elapsed any secret keys based on the provided credentials
+        are invalidated and a new authentication exchange will be
+        required. If an expiration is not set the default expiration time for
+        the requested authentication mechanism is used.
+        [param] expiration - the expiration time in seconds
+
+CHANGED METHOD
+BusAttachment.joinSession(string, short, SessionOpts, SessionListener, OnJoinSessionListener, context)
+    Asynchronous version of joinSession(string, short, Mutable.IntegerValue, SessionOpts, SessionListener)}.
+    context param added in 2.2 release 
+    [param] context - User-defined context object.  Passed through to OnJoinSessionListener.onJoinSession(Status, int, SessionOpts, Object).
+    
+NEW METHOD
+BusAttachment.setLinkTimeout(int sessionId, Mutable.IntegerValue linkTimeout)
+    Set the link timeout for a session.
+    
+    Link timeout is the maximum number of seconds that an unresponsive
+    daemon-to-daemon connection will be monitored before declaring the
+    session lost (via SessionLost callback). Link timeout defaults to 0 which
+    indicates that AllJoyn link monitoring is disabled.
+    
+    Each transport type defines a lower bound on link timeout to avoid
+    defeating transport specific power management algorithms.
+    
+    [param] sessionId   - Id of session whose link timeout will be modified.
+    [param] linkTimeout - [IN/OUT] Max number of seconds that a link can be
+                          unresponsive before being declared lost. 0 indicates
+                          that AllJoyn link monitoring will be disabled. On
+                          return, this value will be the resulting (possibly
+                          upward) adjusted linkTimeout value that acceptable
+                          to the underlying transport.
+
+ NEW METHOD
+ BusAttachment.release()
+    Release resources immediately.
+    
+    Normally, when all references are removed to a given object, the Java
+    garbage collector notices the fact that the object is no longer required
+    and will destroy it.  This can happen at the garbage collector's leisure
+    an so any resources held by the object will not be released until "some
+    time later" after the object is no longer needed.
+    
+    Often, in test programs, we cycle through many BusAttachments in a very
+    short time, and if we rely on the garbage collector to clean up, we can
+    fairly quickly run out of scarce underlying resources -- especially file
+    descriptors.
+    
+    We provide an explicitly release() method to allow test programs to release
+    the underlying resources immediately.  The garbage collector will still
+    call finalize, but the resources held by the underlying C++ objects will
+    go away immediately.
+    
+    It is a programming error to call another method on the BusAttachment
+    after the release() method has been called.
+    
+NEW METHOD
+BusAttachment.setKeyExpiration(String guid, int timeout)
+    Sets the expiration time on keys associated with a specific remote peer as identified by its
+    peer GUID. The peer GUID associated with a bus name can be obtained by calling
+    getPeerGUID(String, Mutable.StringValue).  If the timeout is 0 this is equivalent to calling
+    clearKeys(String).
+    
+    [param] guid    - the GUID of a remote authenticated peer
+    [param] timeout - the time in seconds relative to the current time to expire the keys
+
+NEW METHOD
+BusAttachment.getKeyExpiration(String guid, Mutable.IntegerValue timeout)
+    Gets the expiration time on keys associated with a specific authenticated remote peer as
+    identified by its peer GUID. The peer GUID associated with a bus name can be obtained by
+    calling getPeerGUID(String, Mutable.StringValue).
+    
+    [param] guid    - the GUID of a remote authenticated peer
+    [param] timeout - the time in seconds relative to the current time when the keys will expire
+
+CHANGED METHOD
+InterfaceDescription.addMember(int type, String name, String inputSig, String outSig, int annotation, String accessPerm)
+    param accessPerm added for 2.2.0 release
+    
+NEW METHOD
+ProxyBusObject.release()
+    Release resources immediately.
+     
+    Normally, when all references are removed to a given object, the Java
+    garbage collector notices the fact that the object is no longer required
+    and will destory it.  This can happen at the garbage collector's leisure
+    an so any resources held by the object will not be released until "some
+    time later" after the object is no longer needed.
+    
+    Often, in test programs, we cycle through many BusAttachments in a very
+    short time, and if we rely on the garbage collector to clean up, we can
+    fairly quickly run out of scarce underlying resources -- especially file
+    descriptors.
+    
+    We provide an explicitly release() method to allow test programs to release
+    the underlying resources immediately.  The garbage collector will still
+    call finalize, but the resources held by the underlying C++ objects will
+    go away immediately.
+    
+    It is a programming error to call another method on the ProxyBusObject
+    after the release() method has been called.
+
+NEW METHOD
+SessionListener.sessionMemberAdded(int sessionId, String uniqueName)
+    Called by the bus for multipoint sessions when another node joins the session.
+    
+    [param] sessionId  - Id of multipoint session whose members have changed.
+    [param] uniqueName - Unique name of member who joined the session.
+
+NEW METHOD
+SessionListener.sessionMemberRemoved(int sessionId, String uniqueName)
+    Called by the bus for multipoint sessions when another node leaves the session.
+    
+    [param] sessionId  - Id of multipoint session whose members have changed.
+    [param] uniqueName - Unique name of member who left the session.
+    
+NEW STATUS 
+ALREADY_REGISTERED value="0xa004" 
+    An AuthListener is already set on this BusAttachment

@@ -1,0 +1,45 @@
+Sources for this prebuilt toolchain can be downloaded from Android Opensource
+Project GIT repository git://android.googlesource.com/toolchain.
+
+Configure options:
+export CC="gcc -m32"
+export CXX="g++ -m32"
+export ABI=32
+path/to/build/configure --target=arm-eabi \
+	--host=i686-linux-gnu --build=i686-linux-gnu \
+	--with-gcc-version=4.6 --with-binutils-version=2.21 \
+	--with-gmp-version=4.2.4 --with-mpfr-version=2.4.1 \
+	--with-gdb-version=7.1.x --with-arch=armv5te \
+	--with-sysroot=[ics generic sysroot] \
+	--with-gold-version=2.21 --disable-gold \
+	--disable-multilib
+
+gcc/ synced to
+	commit 3f73d6ef90458b45bbbb33ef4c2b174d4662a22d
+	Author: Jing Yu <jingyu@google.com>
+	Date:   Wed Feb 15 15:40:16 2012 -0800
+
+binutils/ synced to
+	commit d5d495ac8d60e791eab3c6efe795b5c9cff91e33
+	Author: Jing Yu <jingyu@google.com>
+	Date:   Wed Feb 15 16:11:53 2012 -0800
+
+gdb/ synced to
+	commit d3fbc74c42021bf9d385a3d3b8813d0d91318137
+	Author: Jing Yu <jingyu@google.com>
+	Date:   Wed Feb 15 16:23:30 2012 -0800
+
+gmp/ synced to
+	commit 9fb242a79dd122d7fbf867daf5620dba6927bd2e
+	Author: Jing Yu <jingyu@google.com>
+	Date:   Thu Nov 5 17:43:59 2009 -0800
+
+mpfr/ synced to
+	commit da6dfde986af1b56f0f41e9f5de61d093fa8af90
+	Author: Jing Yu <jingyu@google.com>
+	Date:   Thu Nov 5 17:50:13 2009 -0800
+
+build/ synced to
+	commit 5ef7fa6f214e96660a9b16343fea904831e5e6e2
+	Author: Jing Yu <jingyu@google.com>
+	Date:   Wed Feb 15 16:03:22 2012 -0800

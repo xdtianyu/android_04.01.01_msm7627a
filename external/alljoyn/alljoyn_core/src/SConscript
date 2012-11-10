@@ -1,0 +1,42 @@
+# Copyright 2010 - 2011, Qualcomm Innovation Center, Inc.
+# 
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+# 
+#        http://www.apache.org/licenses/LICENSE-2.0
+# 
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# 
+
+Import('env')
+Import('common_objs')
+
+# AllJoyn Sources
+srcs = [ f for f in env.Glob('*.cc') + env.Glob('*.c')
+         if not (str(f).endswith('version.cc')) ]
+
+# Platform specific sources
+if env['OS'] == 'darwin':
+    os_srcs = [ f for f in env.Glob(env['OS'] + '/*.cc') ]
+else:
+    os_srcs = [ f for f in env.Glob(env['OS_GROUP'] + '/*.cc') ]
+
+if env['OS'] == 'android':
+    os_srcs += [env['OS_GROUP'] + '/' + env['OS'] + '/PermissionDB.cc']
+
+alljoyn_core_objs = env.Object(srcs) + env.Object(os_srcs)
+objs = common_objs + alljoyn_core_objs 
+
+version_cc = env.GenVersion('version')
+env.Depends(version_cc, objs)
+objs.append(env.Object(version_cc))
+
+# AllJoyn Static Library
+liballjoyn = env.StaticLibrary('alljoyn', objs)
+
+Return('liballjoyn')

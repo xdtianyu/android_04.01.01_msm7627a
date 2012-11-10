@@ -1,0 +1,40 @@
+# Copyright 2010 - 2011, Qualcomm Innovation Center, Inc.
+# 
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+# 
+#        http://www.apache.org/licenses/LICENSE-2.0
+# 
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+# 
+
+Import('env')
+
+# Install sample source
+if env['OS'] == 'android':
+    clientDistDir = '$DISTDIR/samples/simple/client'
+    env.Install(clientDistDir, env.Glob('android/client/AndroidManifest.xml'))
+    env.Install(clientDistDir, env.Glob('android/client/.classpath'))
+    env.Install(clientDistDir, env.Glob('android/client/.project'))
+    env.Install(clientDistDir, env.Glob('android/client/default.properties'))
+    env.Install(clientDistDir, Dir('android/client/.settings').srcnode())
+    env.Install(clientDistDir, Dir('android/client/jni').srcnode())
+    env.Install(clientDistDir, Dir('android/client/src').srcnode())
+    env.Install(clientDistDir, Dir('android/client/res').srcnode())
+
+    serviceDistDir = '$DISTDIR/samples/simple/service'
+    env.Install(serviceDistDir, env.Glob('android/service/AndroidManifest.xml'))
+    env.Install(serviceDistDir, env.Glob('android/service/.classpath'))
+    env.Install(serviceDistDir, env.Glob('android/service/.project'))
+    env.Install(serviceDistDir, env.Glob('android/service/default.properties'))
+    env.Install(serviceDistDir, Dir('android/service/.settings').srcnode())
+    env.Install(serviceDistDir, Dir('android/service/jni').srcnode())
+    env.Install(serviceDistDir, Dir('android/service/src').srcnode())
+    env.Install(serviceDistDir, Dir('android/service/res').srcnode())
+
+    
